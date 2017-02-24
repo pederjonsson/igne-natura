@@ -40,4 +40,15 @@ function mainController($scope, $http) {
             });
     };
 
+    $scope.getClip = function(){
+        $http.get('/api/clip')
+        .success(function(data) {
+            console.log("get clip attempt from core.js");
+            console.log(data);
+        })
+        .error(function(data) {
+            console.log('Error getting clip: ' + data);
+        });
+    }
+
 }

@@ -29,8 +29,8 @@
     <div class="container">
 
         <!-- HEADER AND TODO COUNT -->
-        <div class="jumbotron text-center">
-            <h1>number of clips <span class="label label-info">{{ clips.length }}</span></h1>
+        <div class="text-center">
+            <h1>admin interface for clips<span class="label label-info">{{ clips.length }}</span></h1>
         </div>
 
         <!-- TODO LIST -->
@@ -51,22 +51,22 @@
         <div id="clip-form" class="row">
             <h4>create clip</h4>
             <div class="col-sm-8 col-sm-offset-2 text-center">
-                <form>
+                <form ng-submit="createClip()">
                     <div class="form-group">
 
                         <!-- BIND THIS VALUE TO formData.minimumAge IN ANGULAR -->
-                        <input type="text" class="form-control input-lg text-center" placeholder="minimum age" ng-model="formData.minimumAge">
+                        <input type="text" class="form-control input-lg text-center" placeholder="minimum age" ng-model="formData.minage">
                         <input type="text" class="form-control input-lg text-center" placeholder="url" ng-model="formData.url">
-                        <!--<input type="checkbox" class="form-control input-lg text-center" placeholder="violence" ng-model="formData.violence">-->
                         <label class="custom-control custom-checkbox">
-                          <input type="checkbox" class="custom-control-input ng-model="formData.violence"">
+                          <input type="checkbox" class="custom-control-input name="checkbox" ng-true-value="true" ng-false-value="false" value="false" ng-model="formData.violence">
                           <span class="custom-control-indicator"></span>
                           <span class="custom-control-description">Contains violence?</span>
                         </label>
+
                     </div>
 
                     <!-- createToDo() WILL CREATE NEW TODOS -->
-                    <button type="submit" class="btn btn-primary btn-lg" ng-click="createClip()">Add</button>
+                    <button type="submit" class="btn btn-primary btn-lg" >Add</button>
                 </form>
             </div>
         </div>
