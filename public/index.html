@@ -19,9 +19,17 @@
     </style>
 
     <!-- SPELLS -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><!-- load jquery -->
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script><!-- load angular -->
-    <script src="core.js"></script>
+
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.min.js"></script><!-- load angular 1.2.4 -->
+
+    <script src="js/controllers/main.js"></script> <!-- load up our controller -->
+    <script src="js/services/clips.js"></script> <!-- load our todo service -->
+    <script src="js/core.js"></script> <!-- load our main application -->
+
+<!--
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    <script src="core.js"></script> -->
 
 </head>
 <!-- SET THE CONTROLLER AND GET ALL TODOS -->
@@ -38,9 +46,9 @@
             <div class="col-sm-4 col-sm-offset-4">
 
                 <!-- LOOP OVER THE TODOS IN $scope.todos -->
-                <div class="checkbox" ng-repeat="clip in clips">
+                <div class="checkbox" ng-repeat="(key, value) in clips">
                     <label>
-                        <input type="checkbox" ng-click="deleteClip(clip._id)"> {{ clip.url }}
+                        <input type="checkbox" ng-click="deleteClip(key)"> {{ key }} {{ value }}
                     </label>
                 </div>
 
