@@ -47,10 +47,17 @@
 
                 <!-- LOOP OVER THE TODOS IN $scope.todos -->
                 <div class="checkbox" ng-repeat="(key, value) in clips">
-                    <label>
-                        <input type="checkbox" ng-click="deleteClip(key)"> {{ key }} {{ value }}
-                    </label>
+                    
+                    <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteClip(key)">
+                      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </button>
+                    <p>
+                        {{ value }}
+                    </p>
+                    
                 </div>
+
+
 
             </div>
         </div>

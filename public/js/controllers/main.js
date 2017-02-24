@@ -41,8 +41,8 @@ angular.module('clipController', [])
             Clips.delete(id)
                 // if successful creation, call our get function to get all the new todos
                 .success(function(data) {
-                    //$scope.todos = data;
-                                console.log("deleted successs");
+                    $scope.clips = data;
+                    console.log("deleted successs");
                 });
         };
     });

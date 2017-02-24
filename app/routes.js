@@ -61,12 +61,12 @@ module.exports = function(app, clipsRef) {
 	   // res.end();
 	});
 
-	app.get('api/clip', function(req, res) {
+	app.get('/api/clip', function(req, res) {
 	 	console.log('Processing get request...');
 	    res.send("jippi");
 	});
 
-	app.delete('api/clip/:clip_id', function(req, res) {
+	app.delete('/api/clip/:clip_id', function(req, res) {
 
 		console.log("delete attempt 3");
 		console.log("deleteid. " + req.params.clip_id);
