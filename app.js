@@ -4,6 +4,7 @@ var morgan = require('morgan');             // log requests to the console (expr
 var bodyParser = require('body-parser');    // pull information from HTML POST (express4)
 var methodOverride = require('method-override'); // simulate DELETE and PUT (express4)
 
+
 /* models */
 Clip = require("./models/clip.js")
 
@@ -16,7 +17,8 @@ app.use(morgan('dev'));                                         // log every req
 
 var admin = require("firebase-admin");
 
-var serviceAccount = require("/Users/pederjonsson/Library/webb/igne-natura/igne-natura-firebase-adminsdk-kluso-c11ad60b78.json");
+//var serviceAccount = require("/Users/pederjonsson/Library/webb/igne-natura/igne-natura-firebase-adminsdk-kluso-c11ad60b78.json");
+var serviceAccount = require("/Users/pederjonsson/web/igne-natura/igne-natura-firebase-adminsdk-kluso-c11ad60b78.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -26,38 +28,45 @@ admin.initializeApp({
 var db = admin.database();
 var ref = db.ref("clips");
 
-var clipUrls = [];
+//var clipUrls = [];
 var count = 0;
 
-ref.on("child_added", function(snap) {
+/*ref.on("child_added", function(snap) {
   count++;
   console.log("added:", snap.key);
   var clip = new Clip(snap.val());
 	  console.log("clip: " + clip.data.url);
 	  clipUrls.push(clip.data.url);
-});
+});*/
 
 // length will always equal count, since snap.val() will include every child_added event
 // triggered before this point
-ref.once("value", function(snap) {
+/*ref.once("value", function(snap) {
   console.log("initial data loaded!", snap.numChildren() === count);
-});
+});*/
 
 // routes ======================================================================
 
     // api ---------------------------------------------------------------------
     // get all todos
 
+/*
 app.get('/', function (req, res) {
 	res.send("<h1>start page</h1>")
-})
+})*/
+
+// application -------------------------------------------------------------
+    app.get('/', function(req, res) {
+    	console.log("loaded index page");
+        res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
+    });
 
 app.get('/api/clips', function(req, res) {
 	console.log("api clips here");
 
 	ref.once("value", function(snapshot) {
 	  console.log(snapshot.val());
-	  res.send(snapshot.val());
+	  res.json(snapshot.val());
 	});
 });
 
