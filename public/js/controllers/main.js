@@ -3,8 +3,9 @@
 angular.module('clipController', [])
 
     // inject the Todo service factory into our controller
-    .controller('mainController', function($scope, $http, Clips) {
+    .controller('mainController', function($scope, $http, Clips, Tags) {
         $scope.formData = {};
+        $scope.formDataCreateTag = {};
         
         //sections on page
         $scope.showClips = false;
@@ -36,7 +37,7 @@ angular.module('clipController', [])
                 // call the create function from our service (returns a promise object)
                 Clips.create($scope.formData)
 
-                    // if successful creation, call our get function to get all the new todos
+                    // if successful creation, call our get function to get all the new clips
                     .success(function(data) {
                         $scope.formData = {}; // clear the form so our user is ready to enter another
                         $scope.clips = data; // assign our new list of todos
@@ -49,10 +50,22 @@ angular.module('clipController', [])
         $scope.deleteClip = function(id) {
             console.log("delete attempt");
             Clips.delete(id)
-                // if successful creation, call our get function to get all the new todos
+                // if successful creation, call our get function to get all the new clips
                 .success(function(data) {
                     $scope.clips = data;
-                    console.log("deleted successs");
+                });
+        };
+
+
+        //TAGS
+
+        $scope.createTag = function() {
+           // call the create function from our service (returns a promise object)
+            Tags.create($scope.formDataCreateTag)
+                // if successful creation, call our get function to get all the new tags
+                .success(function(data) {
+                    $scope.formDataCreateTag = {}; // clear the form so our user is ready to enter another
+                    $scope.tags = data; // assign our new list of tags
                 });
         };
 

@@ -21,6 +21,7 @@
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script src="js/controllers/main.js"></script> <!-- load up our controller -->
     <script src="js/services/clips.js"></script> <!-- load our clip service -->
+    <script src="js/services/tags.js"></script> <!-- load our clip service -->
     <script src="js/core.js"></script> <!-- load our main application -->
     <script src="js/sidemenu.js"></script>
 
@@ -119,7 +120,7 @@
                             <div class="panel-body">
                                 <ul class="nav navbar-nav">
                                     <li><a href="#">edit tags</a></li>
-                                    <li><a href="#">create tag</a></li>
+                                    <li><a href="#" ng-click="hideAll(); showCreateTag = !showCreateTag">create tag</a></li>
                                     <li><a href="#">Link</a></li>
                                 </ul>
                             </div>
@@ -151,46 +152,60 @@
         <div class="side-body">
            
            <!-- HEADER -->
-        <div class="text-center">
-            <h1>Admin igne natura</h1>
-        </div>
+            <div class="text-center">
+                <h1>Admin igne natura</h1>
+            </div>
 
-        <!-- Existing clips list todo: fix to table and show max 10 -->
-        <div ng-show="showClips">
-            <h4>EXISTING CLIPS</h4>
-            <div id="clip-list" class="row">
-                <div class="col-sm-4 col-sm-offset-4">
+            <!-- Existing clips list todo: fix to table and show max 10 -->
+            <div ng-show="showClips">
+                <h4>EXISTING CLIPS</h4>
+                <div id="clip-list" class="row">
+                    <div class="col-sm-4 col-sm-offset-4">
 
-                    <!-- loop over the clips in $scope.clips -->
-                    <div class="checkbox" ng-repeat="(key, value) in clips">
-                        <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteClip(key)">
-                          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                        </button>
-                        <p>{{ value }}</p>
+                        <!-- loop over the clips in $scope.clips -->
+                        <div class="checkbox" ng-repeat="(key, value) in clips">
+                            <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteClip(key)">
+                              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </button>
+                            <p>{{ value }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- CREATE CLIP -->
-        <div id="clip-form" class="row" ng-show="showCreateClips">
-            <div class="col-sm-8 col-sm-offset-2 text-center">
-                <h4>CREATE CLIP</h4>
-                <form ng-submit="createClip()">
-                    <div class="form-group">
-                        <input type="text" class="form-control input-lg text-center" placeholder="minimum age" ng-model="formData.minage">
-                        <input type="text" class="form-control input-lg text-center" placeholder="url" ng-model="formData.url">
-                        <label class="custom-control custom-checkbox">
-                          <input type="checkbox" class="custom-control-input name="checkbox" ng-true-value="true" ng-false-value="false" value="false" ng-model="formData.violence">
-                          <span class="custom-control-indicator"></span>
-                          <span class="custom-control-description">Contains violence?</span>
-                        </label>
-                    </div>
-                    <!-- createClip() will run -->
-                    <button type="submit" class="btn btn-primary btn-lg" >Add</button>
-                </form>
+            
+            <!-- CREATE CLIP -->
+            <div id="clip-form" class="row" ng-show="showCreateClips">
+                <div class="col-sm-8 col-sm-offset-2 text-center">
+                    <h4>CREATE CLIP</h4>
+                    <form ng-submit="createClip()">
+                        <div class="form-group">
+                            <input type="text" class="form-control input-lg text-center" placeholder="minimum age" ng-model="formData.minage">
+                            <input type="text" class="form-control input-lg text-center" placeholder="url" ng-model="formData.url">
+                            <label class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input name="checkbox" ng-true-value="true" ng-false-value="false" value="false" ng-model="formData.violence">
+                              <span class="custom-control-indicator"></span>
+                              <span class="custom-control-description">Contains violence?</span>
+                            </label>
+                        </div>
+                        <!-- createClip() will run -->
+                        <button type="submit" class="btn btn-primary btn-lg" >Add</button>
+                    </form>
+                </div>
             </div>
-        </div>
+
+            <!-- CREATE CLIP -->
+            <div id="clip-form" class="row" ng-show="showCreateTag">
+                <div class="col-sm-8 col-sm-offset-2 text-center">
+                    <h4>CREATE TAG</h4>
+                    <form ng-submit="createTag()">
+                        <div class="form-group">
+                            <input type="text" class="form-control input-lg text-center" placeholder="name of tag" ng-model="formDataCreateTag.name">
+                        </div>
+                        <!-- createClip() will run -->
+                        <button type="submit" class="btn btn-primary btn-lg" >Add</button>
+                    </form>
+                </div>
+            </div>
          
         </div>
     </div>

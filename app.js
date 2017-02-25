@@ -25,9 +25,10 @@ admin.initializeApp({
 
 var db = admin.database();
 var clipsRef = db.ref("clips");
+var tagsRef = db.ref("tags");
 
 // load the routes
-require('./app/routes')(app, clipsRef);
+require('./app/routes')(app, clipsRef, tagsRef);
 
 app.listen(8080, function () {
   console.log('Example app listening on port 8080!')
