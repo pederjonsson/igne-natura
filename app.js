@@ -15,8 +15,8 @@ app.use(morgan('dev'));                                         // log every req
 
 var admin = require("firebase-admin");
 
-//var serviceAccount = require("/Users/pederjonsson/Library/webb/igne-natura/igne-natura-firebase-adminsdk-kluso-c11ad60b78.json");
-var serviceAccount = require("/Users/pederjonsson/web/igne-natura/igne-natura-firebase-adminsdk-kluso-c11ad60b78.json");
+var serviceAccount = require("/Users/pederjonsson/Library/webb/igne-natura/igne-natura-firebase-adminsdk-kluso-c11ad60b78.json");
+//var serviceAccount = require("/Users/pederjonsson/web/igne-natura/igne-natura-firebase-adminsdk-kluso-c11ad60b78.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),

@@ -8,68 +8,176 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
 
-    <title>name of the app</title>
+    <title>Admin igne natura</title>
 
-    <!-- SCROLLS -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
-    <style>
-        html                    { overflow-y:scroll; }
-        body                    { padding-top:50px; }
-        #clip-list              { margin-bottom:30px; }
-    </style>
+    <link rel="stylesheet" type="text/css" href="css/ignenatura.css">
+    <link rel="stylesheet" type="text/css" href="css/sidemenu.css">
 
     <!-- SPELLS -->
 
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.min.js"></script><!-- load angular 1.2.4 -->
-
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.min.js"></script><!-- load angular 1.2.4 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script src="js/controllers/main.js"></script> <!-- load up our controller -->
-    <script src="js/services/clips.js"></script> <!-- load our todo service -->
+    <script src="js/services/clips.js"></script> <!-- load our clip service -->
     <script src="js/core.js"></script> <!-- load our main application -->
-
-<!--
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    
-    <script src="core.js"></script> -->
+    <script src="js/sidemenu.js"></script>
 
 </head>
-<!-- SET THE CONTROLLER AND GET ALL TODOS -->
+
 <body ng-controller="mainController">
-    <div class="container">
 
-        <!-- HEADER AND TODO COUNT -->
-        <div class="text-center">
-            <h1>admin interface for clips<span class="label label-info">{{ clips.length }}</span></h1>
-        </div>
-
-        <!-- TODO LIST -->
-        <div id="clip-list" class="row">
-            <div class="col-sm-4 col-sm-offset-4">
-
-                <!-- LOOP OVER THE TODOS IN $scope.todos -->
-                <div class="checkbox" ng-repeat="(key, value) in clips">
-                    
-                    <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteClip(key)">
-                      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+<div class="row">
+    <!-- uncomment code for absolute positioning tweek see top comment in css -->
+    <!-- <div class="absolute-wrapper"> </div> -->
+    <!-- Menu -->
+    <div class="side-menu">
+    
+        <nav class="navbar navbar-default" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <div class="brand-wrapper">
+                    <!-- Hamburger -->
+                    <button type="button" class="navbar-toggle">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
                     </button>
-                    <p>
-                        {{ value }}
-                    </p>
-                    
+
+                    <!-- Brand -->
+                    <div class="brand-name-wrapper">
+                        <a class="navbar-brand" href="#">
+                            Igne natura
+                        </a>
+                    </div>
+
+                    <!-- Search 
+                    <a data-toggle="collapse" href="#search" class="btn btn-default" id="search-trigger">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </a>
+
+                    <!-- Search body
+                    <div id="search" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <form class="navbar-form" role="search">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Search">
+                                </div>
+                                <button type="submit" class="btn btn-default "><span class="glyphicon glyphicon-ok"></span></button>
+                            </form>
+                        </div>
+                    </div>-->
                 </div>
 
-
-
             </div>
+
+            <!-- Main Menu -->
+            <div class="side-menu-container">
+                <ul class="nav navbar-nav">
+                    <!-- Clips-->
+                    <li class="panel panel-default" id="dropdown">
+                        <a data-toggle="collapse" href="#dropdown-clips">
+                            <span class="glyphicons glyphicons-adjust-alt"></span> Ignenatura clips <span class="caret"></span>
+                        </a>
+
+                        <div id="dropdown-clips" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul class="nav navbar-nav">
+                                    <li><a href="#" ng-click="hideAll(); showClips = !showClips">list all clips</a></li>
+                                    <li><a href="#" ng-click="hideAll(); showCreateClips = !showCreateClips">create new clip</a></li>
+                                    <li><a href="#">review clips</a></li>
+
+                                    <!-- clips level 2  not needed now
+                                    <li class="panel panel-default" id="dropdown">
+                                        <a data-toggle="collapse" href="#dropdown-lvl2">
+                                            <span class="glyphicon glyphicon-off"></span> Sub Level <span class="caret"></span>
+                                        </a>
+                                        <div id="dropdown-lvl2" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <ul class="nav navbar-nav">
+                                                    <li><a href="#">Link</a></li>
+                                                    <li><a href="#">Link</a></li>
+                                                    <li><a href="#">Link</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>-->
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- Tags -->
+                    <li class="panel panel-default" id="dropdown">
+                        <a data-toggle="collapse" href="#dropdown-tags">
+                            <span class="glyphicons glyphicons-tag"></span> Tags <span class="caret"></span>
+                        </a>
+
+                        <div id="dropdown-tags" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul class="nav navbar-nav">
+                                    <li><a href="#">edit tags</a></li>
+                                    <li><a href="#">create tag</a></li>
+                                    <li><a href="#">Link</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- Tags -->
+                    <li class="panel panel-default" id="dropdown">
+                        <a data-toggle="collapse" href="#dropdown-utube">
+                            <span class="glyphicons glyphicons-film"></span> Youtube <span class="caret"></span>
+                        </a>
+
+                        <div id="dropdown-utube" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul class="nav navbar-nav">
+                                    <li><a href="#">handle youtube clips</a></li>
+                                    <li><a href="#">create youtube clip</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="side-body">
+           
+           <!-- HEADER -->
+        <div class="text-center">
+            <h1>Admin igne natura</h1>
         </div>
 
-        <!-- FORM TO CREATE Clips -->
-        <div id="clip-form" class="row">
-            <h4>create clip</h4>
+        <!-- Existing clips list todo: fix to table and show max 10 -->
+        <div ng-show="showClips">
+            <h4>EXISTING CLIPS</h4>
+            <div id="clip-list" class="row">
+                <div class="col-sm-4 col-sm-offset-4">
+
+                    <!-- loop over the clips in $scope.clips -->
+                    <div class="checkbox" ng-repeat="(key, value) in clips">
+                        <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteClip(key)">
+                          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </button>
+                        <p>{{ value }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CREATE CLIP -->
+        <div id="clip-form" class="row" ng-show="showCreateClips">
             <div class="col-sm-8 col-sm-offset-2 text-center">
+                <h4>CREATE CLIP</h4>
                 <form ng-submit="createClip()">
                     <div class="form-group">
-
-                        <!-- BIND THIS VALUE TO formData.minimumAge IN ANGULAR -->
                         <input type="text" class="form-control input-lg text-center" placeholder="minimum age" ng-model="formData.minage">
                         <input type="text" class="form-control input-lg text-center" placeholder="url" ng-model="formData.url">
                         <label class="custom-control custom-checkbox">
@@ -77,16 +185,16 @@
                           <span class="custom-control-indicator"></span>
                           <span class="custom-control-description">Contains violence?</span>
                         </label>
-
                     </div>
-
-                    <!-- createToDo() WILL CREATE NEW TODOS -->
+                    <!-- createClip() will run -->
                     <button type="submit" class="btn btn-primary btn-lg" >Add</button>
                 </form>
             </div>
         </div>
-
+         
+        </div>
     </div>
+</div>
 
 </body>
 </html>

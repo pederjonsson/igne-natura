@@ -5,6 +5,16 @@ angular.module('clipController', [])
     // inject the Todo service factory into our controller
     .controller('mainController', function($scope, $http, Clips) {
         $scope.formData = {};
+        
+        //sections on page
+        $scope.showClips = false;
+        $scope.showCreateClips = false;
+
+        //hides all sections on page
+        $scope.hideAll = function() {
+            $scope.showClips = false;
+            $scope.showCreateClips = false;
+        };
 
         // GET =====================================================================
         // when landing on the page, get all todos and show them
@@ -45,4 +55,5 @@ angular.module('clipController', [])
                     console.log("deleted successs");
                 });
         };
+
     });
