@@ -36,7 +36,6 @@
     <div class="side-menu">
     
         <nav class="navbar navbar-default" role="navigation">
-            <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <div class="brand-wrapper">
                     <!-- Hamburger -->
@@ -53,25 +52,7 @@
                             Igne natura
                         </a>
                     </div>
-
-                    <!-- Search 
-                    <a data-toggle="collapse" href="#search" class="btn btn-default" id="search-trigger">
-                        <span class="glyphicon glyphicon-search"></span>
-                    </a>
-
-                    <!-- Search body
-                    <div id="search" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <form class="navbar-form" role="search">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Search">
-                                </div>
-                                <button type="submit" class="btn btn-default "><span class="glyphicon glyphicon-ok"></span></button>
-                            </form>
-                        </div>
-                    </div>-->
                 </div>
-
             </div>
 
             <!-- Main Menu -->
@@ -89,22 +70,6 @@
                                     <li><a href="#" ng-click="hideAll(); showClips = !showClips">list all clips</a></li>
                                     <li><a href="#" ng-click="hideAll(); showCreateClips = !showCreateClips">create new clip</a></li>
                                     <li><a href="#">review clips</a></li>
-
-                                    <!-- clips level 2  not needed now
-                                    <li class="panel panel-default" id="dropdown">
-                                        <a data-toggle="collapse" href="#dropdown-lvl2">
-                                            <span class="glyphicon glyphicon-off"></span> Sub Level <span class="caret"></span>
-                                        </a>
-                                        <div id="dropdown-lvl2" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <ul class="nav navbar-nav">
-                                                    <li><a href="#">Link</a></li>
-                                                    <li><a href="#">Link</a></li>
-                                                    <li><a href="#">Link</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </li>-->
                                 </ul>
                             </div>
                         </div>
@@ -158,17 +123,31 @@
 
             <!-- Existing clips list todo: fix to table and show max 10 -->
             <div ng-show="showClips">
-                <h4>EXISTING CLIPS</h4>
+                
                 <div id="clip-list" class="row">
-                    <div class="col-sm-4 col-sm-offset-4">
-
+                    <div class="col-sm-12">
+                        <h4>EXISTING CLIPS</h4>
                         <!-- loop over the clips in $scope.clips -->
-                        <div class="checkbox" ng-repeat="(key, value) in clips">
-                            <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteClip(key)">
-                              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                            </button>
-                            <p>{{ value }}</p>
-                        </div>
+                        <table class="table table-striped">
+                            <tr>
+                                <th>minAge</th>
+                                <th>url</th>
+                                <th>tubeId</th>
+                                <th>violence</th>
+                                <th>delete</th>
+                            </tr>
+                            <tr ng-repeat="(key, value) in clips">
+                                <td>{{ value.minimumAge }}</td>
+                                <td>{{ value.url }}</td>
+                                <td>{{ value.youtubeId }}</td>
+                                <td>{{ value.violence }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteClip(key)">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>
