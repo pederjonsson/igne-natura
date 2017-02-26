@@ -28,6 +28,8 @@ var clipsRef = db.ref("clips");
 var tagsRef = db.ref("tags");
 var tubesRef = db.ref("youtubes");
 
+
+
 // load the routes
 require('./app/routes')(app, clipsRef, tagsRef, tubesRef);
 

@@ -218,7 +218,8 @@
                     <form ng-submit="createYoutube()">
                         <div class="form-group">
                             <input type="text" class="form-control input-lg text-center" placeholder="youtube id" ng-model="formDataCreateYoutube.youtubeId">
-                            <input type="text" class="form-control input-lg text-center" placeholder="length" ng-model="formDataCreateYoutube.length">
+                            <input type="text" class="form-control input-lg text-center" placeholder="length in HH:MM:SS" ng-model="formDataCreateYoutube.length">
+                            <input type="text" class="form-control input-lg text-center" placeholder="original title" ng-model="formDataCreateYoutube.originalTitle">
                         </div>
                         <!-- createClip() will run -->
                         <button type="submit" class="btn btn-primary btn-lg" >Add</button>
