@@ -12,6 +12,8 @@ angular.module('clipController', [])
         $scope.showCreateClips = false;
         $scope.showCreateTag = false;
         $scope.showCreateYoutube = false;
+        $scope.showYoutube = false;
+
 
         //hides all sections on page
         $scope.hideAll = function() {
@@ -19,7 +21,7 @@ angular.module('clipController', [])
             $scope.showCreateClips = false;
             $scope.showCreateTag = false;
             $scope.showCreateYoutube = false;
-
+            $scope.showYoutube = false;
         };
 
         // GET =====================================================================
