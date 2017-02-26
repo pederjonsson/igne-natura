@@ -69,7 +69,7 @@
                             <div class="panel-body">
                                 <ul class="nav navbar-nav">
                                     <li><a href="#" ng-click="hideAll(); showClips = !showClips; getClips()">list clips</a></li>
-                                    <li><a href="#" ng-click="hideAll(); showCreateClips = !showCreateClips">create new clip</a></li>
+                                    <li><a href="#" ng-click="hideAll(); showCreateClips = !showCreateClips; getYoutube()">create new clip</a></li>
                                     <li><a href="#">review clips</a></li>
                                 </ul>
                             </div>
@@ -154,12 +154,19 @@
             
             <!-- CREATE CLIP -->
             <div id="clip-form" class="row" ng-show="showCreateClips">
+
                 <div class="col-sm-8 col-sm-offset-2 text-center">
                     <h4>CREATE CLIP</h4>
+
+                   
+                    <select class="form-control" ng-model="formData.youtubeId">
+                        <option ng-repeat="(key,tube) in youtubes" ng-value="key">{{tube.originalTitle}}</option>
+                    </select>
+
                     <form ng-submit="createClip()">
                         <div class="form-group">
                             <input type="text" class="form-control input-lg text-center" placeholder="minimum age" ng-model="formData.minage">
-                            <input type="text" class="form-control input-lg text-center" placeholder="url" ng-model="formData.url">
+                            <input type="text" class="form-control input-lg text-center" placeholder="youtubeId" ng-model="formData.youtubeId">
                             <label class="custom-control custom-checkbox">
                               <input type="checkbox" class="custom-control-input name="checkbox" ng-true-value="true" ng-false-value="false" value="false" ng-model="formData.violence">
                               <span class="custom-control-indicator"></span>

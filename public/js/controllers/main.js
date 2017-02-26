@@ -7,6 +7,7 @@ angular.module('clipController', [])
         $scope.formData = {};
         $scope.formDataCreateTag = {};
         $scope.formDataCreateYoutube = {};
+        $scope.selectedYoutubeIdForCreatingClip = "";
         
         //sections on page
         $scope.showClips = false;
