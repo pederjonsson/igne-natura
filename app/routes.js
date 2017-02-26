@@ -85,6 +85,24 @@ module.exports = function(app, clipsRef, tagsRef, tubesRef) {
 		});
 	});
 
+	app.put('/api/youtube/:tube_id/:validated', function(req, res) {
+		var tube = tubesRef.child(req.params.tube_id);
+		tube.update({
+		  	"validated": req.params.validated
+		});
+		tubesRef.once("value", function(snapshot) {
+		  res.json(snapshot.val());
+		});
+	});
+
+	app.get('/api/youtubes/unvalidated', function(req, res) {
+		tubesRef.orderByChild("validated").equalTo(false).on("child_added", function(snapshot) {
+		  console.log(snapshot.key);
+		});
+	});
+
+	
+
 	app.delete('/api/youtube/:youtube_id', function(req, res) {
 		tubesRef.child(req.params.youtube_id).remove();
 		tubesRef.once("value", function(snapshot) {

@@ -58,8 +58,11 @@ angular.module('clipController', [])
 
                     // if successful creation, call our get function to get all the new clips
                     .success(function(data) {
+                        $scope.updateYoutube($scope.tubeIdForCreatingClip, true);
                         $scope.formDataForCreatingClip = {}; // clear the form so our user is ready to enter another
-                        $scope.clips = data; 
+                        $scope.tubeIdForCreatingClip = "";
+                        $scope.clips = data;
+
                     });
             }
         };
@@ -126,6 +129,16 @@ angular.module('clipController', [])
                 .success(function(data) {
                     $scope.youtubes = data;
 
+                    //in case previously an unfiniished clip creation is still in place, clear its data
+                });
+        };
+
+        // update a youtube
+        $scope.updateYoutube = function(id, validated) {
+            Youtubes.put(id, validated)
+                // if successful delete, get all youtubes again
+                .success(function(data) {
+                    $scope.youtubes = data;
                     //in case previously an unfiniished clip creation is still in place, clear its data
                 });
         };

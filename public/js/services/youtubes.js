@@ -11,6 +11,9 @@ angular.module('youtubeService', [])
             },
             delete : function(id) {
                 return $http.delete('/api/youtube/' + id);
+            },
+            put : function(id, validated){
+                return $http.put('/api/youtube/' + id + '/'+ validated);
             }
         }
     });
