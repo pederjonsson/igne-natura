@@ -6,6 +6,7 @@ angular.module('clipController', [])
     .controller('mainController', function($scope, $http, Clips, Tags, Youtubes) {
         $scope.formData = {};
         $scope.formDataCreateTag = {};
+        $scope.formDataCreateYoutube = {};
         
         //sections on page
         $scope.showClips = false;
@@ -13,6 +14,7 @@ angular.module('clipController', [])
         $scope.showCreateTag = false;
         $scope.showCreateYoutube = false;
         $scope.showYoutube = false;
+        $scope.showTags = false;
 
 
         //hides all sections on page
@@ -22,6 +24,7 @@ angular.module('clipController', [])
             $scope.showCreateTag = false;
             $scope.showCreateYoutube = false;
             $scope.showYoutube = false;
+            $scope.showTags = false;
         };
 
         // GET =====================================================================
@@ -70,6 +73,22 @@ angular.module('clipController', [])
                 .success(function(tags) {
                     $scope.formDataCreateTag = {};
                     $scope.tags = tags; // assign new list of tags
+                });
+        };
+
+        $scope.getTags = function() {
+            Tags.get()
+            .success(function(tags) {
+                $scope.tags = tags;
+            });
+        };
+
+        // delete a tag
+        $scope.deleteTag = function(id) {
+            Tags.delete(id)
+                // if successful delete, get tags again
+                .success(function(data) {
+                    $scope.tags = data;
                 });
         };
 

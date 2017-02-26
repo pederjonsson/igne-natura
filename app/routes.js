@@ -90,6 +90,23 @@ module.exports = function(app, clipsRef, tagsRef, tubesRef) {
 		});
 	});
 
+	app.get('/api/tags', function(req, res) {
+		console.log("fetching tags");
+
+		tagsRef.once("value", function(snapshot) {
+		  res.json(snapshot.val());
+		});
+	});
+
+	app.delete('/api/tag/:tag_id', function(req, res) {
+		console.log("delete tag id: " + req.params.tag_id);
+		tagsRef.child(req.params.tag_id).remove();
+
+		tagsRef.once("value", function(snapshot) {
+		  res.json(snapshot.val());
+		});
+	});
+
 	//YOUTUBES
 	app.post('/api/youtube', function(req, res) {
 	 	console.log('youtubeId: req.body.name: ' + req.body.youtubeId);
