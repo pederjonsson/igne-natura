@@ -44,7 +44,6 @@ angular.module('clipController', [])
                         $scope.updateYoutube($scope.tubeIdForCreatingClip, true);
                         $scope.resetFormData();
                         $scope.clips = data;
-
                     });
             }
         };

@@ -176,8 +176,14 @@
                               <option ng-repeat="tag in tags" ng-value="tag.name">{{tag.name}}</option>
                             </select>
                             {{formDataForCreatingClip.tags}}
-
                             <BR />
+                            <BR />
+
+                            <select class="form-control" ng-model="formDataForCreatingClip.language">
+                              <option ng-value="sv">sv</option>
+                              <option ng-value="en">en</option>
+                            </select>
+                            
                             <BR />
 
                             <input type="text" class="form-control input-lg text-center" placeholder="minimum recommended age" ng-model="formDataForCreatingClip.minAge">
@@ -189,6 +195,12 @@
                               <input type="checkbox" class="custom-control-input" ng-model="formDataForCreatingClip.violence" ng-init="formDataForCreatingClip.violence=false">
                               <span class="custom-control-indicator"></span>
                               <span class="custom-control-description">Contains violence?</span>
+                            </label>
+
+                            <label class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" ng-model="formDataForCreatingClip.ads" ng-init="formDataForCreatingClip.ads=false">
+                              <span class="custom-control-indicator"></span>
+                              <span class="custom-control-description">Contains ads?</span>
                             </label>
                         </div>
                         <!-- createClip() will run -->
