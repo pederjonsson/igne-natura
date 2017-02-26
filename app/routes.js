@@ -61,11 +61,6 @@ module.exports = function(app, clipsRef, tagsRef, tubesRef) {
 	   // res.end();
 	});
 
-	app.get('/api/clip', function(req, res) {
-	 	console.log('Processing get request...');
-	    res.send("jippi");
-	});
-
 	app.delete('/api/clip/:clip_id', function(req, res) {
 
 		console.log("delete attempt 3");
@@ -121,6 +116,14 @@ module.exports = function(app, clipsRef, tagsRef, tubesRef) {
 
 		tubesRef.once("value", function(snapshot) {
 		  console.log(snapshot.val());
+		  res.json(snapshot.val());
+		});
+	});
+
+	app.get('/api/youtubes', function(req, res) {
+		console.log("fetching youtubes");
+
+		tubesRef.once("value", function(snapshot) {
 		  res.json(snapshot.val());
 		});
 	});

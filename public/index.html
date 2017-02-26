@@ -102,7 +102,7 @@
                         <div id="dropdown-utube" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <ul class="nav navbar-nav">
-                                    <li><a href="#">handle youtube clips</a></li>
+                                    <li><a href="#" ng-click="hideAll(); showYoutube = !showYoutube; getYoutube()">handle youtube clips</a></li>
                                     <li><a href="#" ng-click="hideAll(); showCreateYoutube = !showCreateYoutube">create youtube clip</a></li>
                                 </ul>
                             </div>
@@ -199,6 +199,37 @@
                         <!-- createClip() will run -->
                         <button type="submit" class="btn btn-primary btn-lg" >Add</button>
                     </form>
+                </div>
+            </div>
+
+             <!-- Existing youtubes list todo: fix to table and show max 10 -->
+            <div ng-show="showYoutube">
+                
+                <div id="youtube-list" class="row">
+                    <div class="col-sm-12">
+                        <h4>EXISTING YOUTUBES</h4>
+                        <!-- loop over the youtubes in $scope.youtubes -->
+                        <table class="table table-striped">
+                            <tr>
+                                <th>youtubeId</th>
+                                <th>validated</th>
+                                <th>length</th>
+                                <th>uploaded</th>
+                                <th>delete</th>
+                            </tr>
+                            <tr ng-repeat="(key, value) in youtubes">
+                                <td>{{ value.youtubeId }}</td>
+                                <td>{{ value.validated }}</td>
+                                <td>{{ value.length }}</td>
+                                <td>{{ value.uploaded }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteYoutube(key)">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
          

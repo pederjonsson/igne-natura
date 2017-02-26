@@ -81,4 +81,11 @@ angular.module('clipController', [])
                 });
         };
 
+        $scope.getYoutube = function() {
+            Youtubes.get()
+            .success(function(youtubes) {
+                $scope.youtubes = youtubes;
+            });
+        };
+
     });
