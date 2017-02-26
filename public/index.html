@@ -130,15 +130,17 @@
                         <!-- loop over the clips in $scope.clips -->
                         <table class="table table-striped">
                             <tr>
+                                <th>original title</th>
                                 <th>minAge</th>
-                                <th>url</th>
+                                <th>maxAge</th>
                                 <th>tubeId</th>
                                 <th>violence</th>
                                 <th>delete</th>
                             </tr>
                             <tr ng-repeat="(key, value) in clips">
-                                <td>{{ value.minimumAge }}</td>
-                                <td>{{ value.url }}</td>
+                                <td>{{ value.originalTitle }}</td>
+                                <td>{{ value.minAge }}</td>
+                                <td>{{ value.maxAge }}</td>
                                 <td>{{ value.youtubeId }}</td>
                                 <td>{{ value.violence }}</td>
                                 <td>
@@ -159,16 +161,26 @@
                     <h4>CREATE CLIP</h4>
 
                    
-                    <select class="form-control" ng-model="formData.youtubeId">
+                    <select class="form-control" ng-change="updateCreateClipFormWithYoutubeData()" ng-model="tubeIdForCreatingClip">
                         <option ng-repeat="(key,tube) in youtubes" ng-value="key">{{tube.originalTitle}}</option>
                     </select>
+                    
 
                     <form ng-submit="createClip()">
                         <div class="form-group">
-                            <input type="text" class="form-control input-lg text-center" placeholder="minimum age" ng-model="formData.minage">
-                            <input type="text" class="form-control input-lg text-center" placeholder="youtubeId" ng-model="formData.youtubeId">
+                            
+                            <input type="text" class="form-control input-lg text-center" placeholder="youtubeId" ng-model="formDataForCreatingClip.youtubeId">
+                            <input type="text" class="form-control input-lg text-center" placeholder="original title" ng-model="formDataForCreatingClip.originalTitle">
+
+                            <BR />
+
+                            <input type="text" class="form-control input-lg text-center" placeholder="minimum recommended age" ng-model="formDataForCreatingClip.minAge">
+                            <input type="text" class="form-control input-lg text-center" placeholder="maximum recommended age" ng-model="formDataForCreatingClip.maxAge">
+
+                            <BR />
+
                             <label class="custom-control custom-checkbox">
-                              <input type="checkbox" class="custom-control-input name="checkbox" ng-true-value="true" ng-false-value="false" value="false" ng-model="formData.violence">
+                              <input type="checkbox" class="custom-control-input" ng-model="formDataForCreatingClip.violence" ng-init="formDataForCreatingClip.violence=false">
                               <span class="custom-control-indicator"></span>
                               <span class="custom-control-description">Contains violence?</span>
                             </label>

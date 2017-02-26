@@ -19,9 +19,11 @@ module.exports = function(app, clipsRef, tagsRef, tubesRef) {
 
 	 	var newPostRef = clipsRef.push();
 		newPostRef.set({
-		  minimumAge: req.body.minage,
+		  minAge: req.body.minAge,
+		  maxAge: req.body.maxAge,
+		  originalTitle: req.body.originalTitle,
 		  violence: req.body.violence,
-		  url: req.body.url
+		  youtubeId: req.body.youtubeId
 		});
 		clipsRef.once("value", function(snapshot) {
 		  res.json(snapshot.val());

@@ -4,10 +4,10 @@ angular.module('clipController', [])
 
     // inject the Clip,Tag service factory into our controller
     .controller('mainController', function($scope, $http, Clips, Tags, Youtubes) {
-        $scope.formData = {};
+        $scope.formDataForCreatingClip = {};
+        $scope.tubeIdForCreatingClip = "";
         $scope.formDataCreateTag = {};
         $scope.formDataCreateYoutube = {};
-        $scope.selectedYoutubeIdForCreatingClip = "";
         
         //sections on page
         $scope.showClips = false;
@@ -28,6 +28,12 @@ angular.module('clipController', [])
             $scope.showTags = false;
         };
 
+        $scope.updateCreateClipFormWithYoutubeData = function(){
+            var tubeObj = $scope.youtubes[$scope.tubeIdForCreatingClip];
+            $scope.formDataForCreatingClip.youtubeId = $scope.tubeIdForCreatingClip;
+            $scope.formDataForCreatingClip.originalTitle = tubeObj.originalTitle;
+        }
+
         // CLIPS ==============================
         //GET
         $scope.getClips = function() {
@@ -45,14 +51,14 @@ angular.module('clipController', [])
             // validate the formData to make sure that something is there
             // if form is empty, nothing will happen
             // people can't just hold enter to keep adding the same to-do anymore
-            if (!$.isEmptyObject($scope.formData)) {
+            if (!$.isEmptyObject($scope.formDataForCreatingClip)) {
 
                 // call the create function from our service (returns a promise object)
-                Clips.create($scope.formData)
+                Clips.create($scope.formDataForCreatingClip)
 
                     // if successful creation, call our get function to get all the new clips
                     .success(function(data) {
-                        $scope.formData = {}; // clear the form so our user is ready to enter another
+                        $scope.formDataForCreatingClip = {}; // clear the form so our user is ready to enter another
                         $scope.clips = data; 
                     });
             }
@@ -119,6 +125,8 @@ angular.module('clipController', [])
                 // if successful delete, get all youtubes again
                 .success(function(data) {
                     $scope.youtubes = data;
+
+                    //in case previously an unfiniished clip creation is still in place, clear its data
                 });
         };
 
