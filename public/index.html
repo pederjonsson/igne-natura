@@ -62,15 +62,14 @@
                     <!-- Clips-->
                     <li class="panel panel-default" id="dropdown">
                         <a data-toggle="collapse" href="#dropdown-clips">
-                            <span class="glyphicons glyphicons-adjust-alt"></span> Ignenatura clips <span class="caret"></span>
+                            <span class="glyphicons glyphicons-adjust-alt"></span> Clips <span class="caret"></span>
                         </a>
 
                         <div id="dropdown-clips" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <ul class="nav navbar-nav">
                                     <li><a href="#" ng-click="hideAll(); showClips = !showClips; getClips()">list clips</a></li>
-                                    <li><a href="#" ng-click="hideAll(); showCreateClips = !showCreateClips; getYoutube()">create new clip</a></li>
-                                    <li><a href="#">review clips</a></li>
+                                    <li><a href="#" ng-click="hideAll(); showCreateClips = !showCreateClips; getYoutube(); getTags()">create new clip</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -118,7 +117,7 @@
            
            <!-- HEADER -->
             <div class="text-center">
-                <h1>Admin igne natura</h1>
+                <h1>Admin</h1>
             </div>
 
             <!-- Existing clips list todo: fix to table and show max 10 -->
@@ -164,7 +163,6 @@
                     <select class="form-control" ng-change="updateCreateClipFormWithYoutubeData()" ng-model="tubeIdForCreatingClip">
                         <option ng-repeat="(key,tube) in youtubes" ng-value="key">{{tube.originalTitle}}</option>
                     </select>
-                    
 
                     <form ng-submit="createClip()">
                         <div class="form-group">
@@ -172,6 +170,14 @@
                             <input type="text" class="form-control input-lg text-center" placeholder="youtubeId" ng-model="formDataForCreatingClip.youtubeId">
                             <input type="text" class="form-control input-lg text-center" placeholder="original title" ng-model="formDataForCreatingClip.originalTitle">
 
+                            <BR />
+
+                            <select class="form-control" ng-model="formDataForCreatingClip.tags" multiple>
+                              <option ng-repeat="tag in tags" ng-value="tag.name">{{tag.name}}</option>
+                            </select>
+                            {{formDataForCreatingClip.tags}}
+
+                            <BR />
                             <BR />
 
                             <input type="text" class="form-control input-lg text-center" placeholder="minimum recommended age" ng-model="formDataForCreatingClip.minAge">
@@ -248,7 +254,6 @@
 
              <!-- Existing youtubes list todo: fix to table and show max 10 -->
             <div ng-show="showYoutube">
-                
                 <div id="youtube-list" class="row">
                     <div class="col-sm-12">
                         <h4>EXISTING YOUTUBES</h4>
