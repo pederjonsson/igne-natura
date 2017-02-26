@@ -95,10 +95,26 @@ angular.module('clipController', [])
                 });
         };
 
+        $scope.setUnvalidatedTubes = function(){
+
+            $scope.unvalidatedTubes = $scope.youtubes;
+
+            for (var key in $scope.unvalidatedTubes) {
+                // skip loop if the property is from prototype
+                if (!$scope.unvalidatedTubes.hasOwnProperty(key)) continue;
+
+                var tube = $scope.unvalidatedTubes[key];
+                if(tube.validated){
+                    delete $scope.unvalidatedTubes[key];
+                }
+            }
+        };
+
         $scope.getYoutube = function() {
             Youtubes.get()
             .success(function(youtubes) {
                 $scope.youtubes = youtubes;
+                $scope.setUnvalidatedTubes();
             });
         };
 

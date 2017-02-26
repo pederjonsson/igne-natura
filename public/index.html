@@ -161,7 +161,7 @@
 
                    
                     <select class="form-control" ng-change="updateCreateClipFormWithYoutubeData()" ng-model="tubeIdForCreatingClip">
-                        <option ng-repeat="(key,tube) in youtubes" ng-value="key">{{tube.originalTitle}}</option>
+                        <option ng-repeat="(key,tube) in unvalidatedTubes" ng-value="key">{{tube.originalTitle}}</option>
                     </select>
 
                     <form ng-submit="createClip()">

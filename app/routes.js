@@ -17,15 +17,10 @@ module.exports = function(app, clipsRef, tagsRef, tubesRef) {
 
 	app.post('/api/clip', function(req, res) {
 
-
 		var tagObject = {};
 		req.body.tags.forEach(function(element) {
-			console.log("adding tag: " + element);
-		    //clip.push({
-			  tagObject[element] = true;
-			//});
+			tagObject[element] = true;
 		});
-
 
 	 	var newPostRef = clipsRef.push();
 		newPostRef.set({
@@ -36,16 +31,6 @@ module.exports = function(app, clipsRef, tagsRef, tubesRef) {
 		  youtubeId: req.body.youtubeId,
 		  tags: tagObject,
 		});
-
-		/*var postId = newPostRef.key;
-		var clip = clipsRef.child(postId);
-
-		req.body.tags.forEach(function(element) {
-			console.log("adding tag: " + element);
-		    clip.push({
-			  [element]: true
-			});
-		});*/
 
 		clipsRef.once("value", function(snapshot) {
 		  res.json(snapshot.val());
@@ -58,7 +43,6 @@ module.exports = function(app, clipsRef, tagsRef, tubesRef) {
 		  res.json(snapshot.val());
 		});
 	});
-
 
 	//TAGS
 	app.post('/api/tag', function(req, res) {
@@ -96,8 +80,6 @@ module.exports = function(app, clipsRef, tagsRef, tubesRef) {
 		  uploaded: Date.now()
 		});
 
-		
-
 		tubesRef.once("value", function(snapshot) {
 		  console.log(snapshot.val());
 		  res.json(snapshot.val());
@@ -125,8 +107,6 @@ module.exports = function(app, clipsRef, tagsRef, tubesRef) {
 		  console.log(snapshot.key);
 		});
 	});
-
-	
 
 	app.delete('/api/youtube/:youtube_id', function(req, res) {
 		tubesRef.child(req.params.youtube_id).remove();
