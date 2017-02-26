@@ -62,22 +62,13 @@ module.exports = function(app, clipsRef, tagsRef, tubesRef) {
 	});
 
 	app.delete('/api/clip/:clip_id', function(req, res) {
-
-		console.log("delete attempt 3");
-		console.log("deleteid. " + req.params.clip_id);
-		
-
+		console.log("delete clip id: " + req.params.clip_id);
 		clipsRef.child(req.params.clip_id).remove();
 
 		clipsRef.once("value", function(snapshot) {
 		  console.log(snapshot.val());
 		  res.json(snapshot.val());
 		});
-		//res.end(); //send("deleted clip id: " + req.params.clip_id);
-		/*ref.once("value", function(snapshot) {
-		  console.log(snapshot.val());
-		  res.send(snapshot.val())
-		});*/
 	});
 
 
@@ -122,6 +113,15 @@ module.exports = function(app, clipsRef, tagsRef, tubesRef) {
 
 	app.get('/api/youtubes', function(req, res) {
 		console.log("fetching youtubes");
+
+		tubesRef.once("value", function(snapshot) {
+		  res.json(snapshot.val());
+		});
+	});
+
+	app.delete('/api/youtube/:youtube_id', function(req, res) {
+		console.log("delete youtube id: " + req.params.youtube_id);
+		tubesRef.child(req.params.youtube_id).remove();
 
 		tubesRef.once("value", function(snapshot) {
 		  res.json(snapshot.val());

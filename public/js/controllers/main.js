@@ -88,4 +88,13 @@ angular.module('clipController', [])
             });
         };
 
+        // delete a youtube
+        $scope.deleteYoutube = function(id) {
+            Youtubes.delete(id)
+                // if successful delete, get all youtubes again
+                .success(function(data) {
+                    $scope.youtubes = data;
+                });
+        };
+
     });
