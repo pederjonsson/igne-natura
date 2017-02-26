@@ -61,6 +61,14 @@ module.exports = function(app, clipsRef, tagsRef, tubesRef) {
 	   // res.end();
 	});
 
+	app.get('/api/clips', function(req, res) {
+		console.log("fetching clips");
+
+		clipsRef.once("value", function(snapshot) {
+		  res.json(snapshot.val());
+		});
+	});
+
 	app.delete('/api/clip/:clip_id', function(req, res) {
 		console.log("delete clip id: " + req.params.clip_id);
 		clipsRef.child(req.params.clip_id).remove();

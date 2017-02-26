@@ -27,14 +27,17 @@ angular.module('clipController', [])
             $scope.showTags = false;
         };
 
-        // GET =====================================================================
-        // when landing on the page, get all clips and show them
-        Clips.get()
+        // CLIPS ==============================
+        //GET
+        $scope.getClips = function() {
+            Clips.get()
             .success(function(data) {
                 $scope.clips = data;
             });
+        };
+        
 
-        // CREATE ==================================================================
+        // CREATE
         // when submitting the add form, send the text to the node API
         $scope.createClip = function() {
 
