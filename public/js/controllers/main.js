@@ -2,24 +2,28 @@
 // js/controllers/main.js
 angular.module('clipController', [])
 
-    // inject the Todo service factory into our controller
-    .controller('mainController', function($scope, $http, Clips, Tags) {
+    // inject the Clip,Tag service factory into our controller
+    .controller('mainController', function($scope, $http, Clips, Tags, Youtubes) {
         $scope.formData = {};
         $scope.formDataCreateTag = {};
         
         //sections on page
         $scope.showClips = false;
         $scope.showCreateClips = false;
+        $scope.showCreateTag = false;
+        $scope.showCreateYoutube = false;
 
         //hides all sections on page
         $scope.hideAll = function() {
             $scope.showClips = false;
             $scope.showCreateClips = false;
+            $scope.showCreateTag = false;
+            $scope.showCreateYoutube = false;
+
         };
 
         // GET =====================================================================
-        // when landing on the page, get all todos and show them
-        // use the service to get all the todos
+        // when landing on the page, get all clips and show them
         Clips.get()
             .success(function(data) {
                 $scope.clips = data;
@@ -32,7 +36,7 @@ angular.module('clipController', [])
             // validate the formData to make sure that something is there
             // if form is empty, nothing will happen
             // people can't just hold enter to keep adding the same to-do anymore
-            //if (!$.isEmptyObject($scope.formData)) {
+            if (!$.isEmptyObject($scope.formData)) {
 
                 // call the create function from our service (returns a promise object)
                 Clips.create($scope.formData)
@@ -40,17 +44,17 @@ angular.module('clipController', [])
                     // if successful creation, call our get function to get all the new clips
                     .success(function(data) {
                         $scope.formData = {}; // clear the form so our user is ready to enter another
-                        $scope.clips = data; // assign our new list of todos
+                        $scope.clips = data; 
                     });
-          //  }
+            }
         };
 
         // DELETE ==================================================================
-        // delete a todo after checking it
+        // delete a clip
         $scope.deleteClip = function(id) {
             console.log("delete attempt");
             Clips.delete(id)
-                // if successful creation, call our get function to get all the new clips
+                // if successful creation, get all the new clips
                 .success(function(data) {
                     $scope.clips = data;
                 });
@@ -60,12 +64,20 @@ angular.module('clipController', [])
         //TAGS
 
         $scope.createTag = function() {
-           // call the create function from our service (returns a promise object)
             Tags.create($scope.formDataCreateTag)
-                // if successful creation, call our get function to get all the new tags
-                .success(function(data) {
-                    $scope.formDataCreateTag = {}; // clear the form so our user is ready to enter another
-                    $scope.tags = data; // assign our new list of tags
+                .success(function(tags) {
+                    $scope.formDataCreateTag = {};
+                    $scope.tags = tags; // assign new list of tags
+                });
+        };
+
+        //YOUTUBE
+
+        $scope.createYoutube = function() {
+            Youtubes.create($scope.formDataCreateYoutube)
+                .success(function(youtubes) {
+                    $scope.formDataCreateYoutube = {};
+                    $scope.youtubes = youtubes; // assign new list of youtubes
                 });
         };
 

@@ -21,7 +21,8 @@
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script src="js/controllers/main.js"></script> <!-- load up our controller -->
     <script src="js/services/clips.js"></script> <!-- load our clip service -->
-    <script src="js/services/tags.js"></script> <!-- load our clip service -->
+    <script src="js/services/tags.js"></script> <!-- load our tag service -->
+    <script src="js/services/youtubes.js"></script> <!-- load youtube service -->
     <script src="js/core.js"></script> <!-- load our main application -->
     <script src="js/sidemenu.js"></script>
 
@@ -92,7 +93,7 @@
                         </div>
                     </li>
 
-                    <!-- Tags -->
+                    <!-- Youtube -->
                     <li class="panel panel-default" id="dropdown">
                         <a data-toggle="collapse" href="#dropdown-utube">
                             <span class="glyphicons glyphicons-film"></span> Youtube <span class="caret"></span>
@@ -102,7 +103,7 @@
                             <div class="panel-body">
                                 <ul class="nav navbar-nav">
                                     <li><a href="#">handle youtube clips</a></li>
-                                    <li><a href="#">create youtube clip</a></li>
+                                    <li><a href="#" ng-click="hideAll(); showCreateYoutube = !showCreateYoutube">create youtube clip</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -172,13 +173,27 @@
                 </div>
             </div>
 
-            <!-- CREATE CLIP -->
+            <!-- CREATE TAG -->
             <div id="clip-form" class="row" ng-show="showCreateTag">
                 <div class="col-sm-8 col-sm-offset-2 text-center">
                     <h4>CREATE TAG</h4>
                     <form ng-submit="createTag()">
                         <div class="form-group">
                             <input type="text" class="form-control input-lg text-center" placeholder="name of tag" ng-model="formDataCreateTag.name">
+                        </div>
+                        <!-- createClip() will run -->
+                        <button type="submit" class="btn btn-primary btn-lg" >Add</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- CREATE YOUTUBE -->
+            <div id="clip-form" class="row" ng-show="showCreateYoutube">
+                <div class="col-sm-8 col-sm-offset-2 text-center">
+                    <h4>CREATE YOUTUBE</h4>
+                    <form ng-submit="createYoutube()">
+                        <div class="form-group">
+                            <input type="text" class="form-control input-lg text-center" placeholder="youtube id" ng-model="formDataCreateYoutube.youtubeId">
                         </div>
                         <!-- createClip() will run -->
                         <button type="submit" class="btn btn-primary btn-lg" >Add</button>
