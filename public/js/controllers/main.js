@@ -137,7 +137,7 @@ angular.module('clipController', [])
 
         $scope.updateCreateClipFormWithYoutubeData = function(){
             var tubeObj = $scope.youtubes[$scope.tubeIdForCreatingClip];
-            $scope.formDataForCreatingClip.youtubeId = $scope.tubeIdForCreatingClip;
+            $scope.formDataForCreatingClip.youtubeId = tubeObj.youtubeId;
             $scope.formDataForCreatingClip.originalTitle = tubeObj.originalTitle;
         };
 
