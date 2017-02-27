@@ -49,12 +49,22 @@ angular.module('clipController', [])
         };
 
         // delete a clip
-        $scope.deleteClip = function(id) {
-            console.log("delete attempt");
-            Clips.delete(id)
+        $scope.deleteClip = function(clipId, youtubeId) {
+            console.log("delete attempt clipId = " + clipId + " youtubeId = " + youtubeId);
+            Clips.delete(clipId)
                 // if successful creation, get all the new clips
                 .success(function(data) {
                     $scope.clips = data;
+
+                    for (var key in $scope.youtubes) {
+                        if (!$scope.youtubes.hasOwnProperty(key)) continue;
+                        if($scope.youtubes[key].youtubeId == youtubeId){
+                            var tube = $scope.youtubes[key];
+                            console.log("foundit");
+                            $scope.updateYoutube(key, false);
+                            break;
+                        }
+                    }
                 });
         };
 
@@ -96,7 +106,7 @@ angular.module('clipController', [])
 
         $scope.setUnvalidatedTubes = function(){
 
-            $scope.unvalidatedTubes = $scope.youtubes;
+            $scope.unvalidatedTubes = JSON.parse(JSON.stringify($scope.youtubes));
 
             for (var key in $scope.unvalidatedTubes) {
                 // skip loop if the property is from prototype
