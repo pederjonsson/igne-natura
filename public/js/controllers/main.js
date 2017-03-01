@@ -13,6 +13,8 @@ angular.module('clipController', [])
             $scope.tubeIdForCreatingClip = "";
             $scope.formDataCreateTag = {};
             $scope.formDataCreateYoutube = {};
+            $scope.formDataForCreatingClip.violence = false;
+            $scope.formDataForCreatingClip.ads = false;
         }
         $scope.resetFormData();
 
