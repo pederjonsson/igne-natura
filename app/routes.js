@@ -31,6 +31,7 @@ module.exports = function(app, clipsRef, tagsRef, tubesRef) {
 			ads: req.body.ads,
 			youtubeId: req.body.youtubeId,
 			tags: tagObject,
+			time: req.body.time,
 			language: req.body.language
 		});
 
@@ -78,6 +79,7 @@ module.exports = function(app, clipsRef, tagsRef, tubesRef) {
 		newPostRef.set({
 		  	youtubeId: req.body.youtubeId,
 		  	validated: false,
+		  	time: req.body.time,
 		  	originalTitle: req.body.originalTitle,
 		  	uploaded: Date.now()
 		});

@@ -97,8 +97,18 @@ angular.module('clipController', [])
         };
 
         //YOUTUBE
+        //hms should look like: '02:04:33';
+        getTimeInSeconds = function (hms){
+            var a = hms.split(':');
+            var seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
+            return seconds;
+        }
 
         $scope.createYoutube = function() {
+
+            if($scope.formDataCreateYoutube.time !== undefined){
+                $scope.formDataCreateYoutube.time = getTimeInSeconds($scope.formDataCreateYoutube.time);
+            }
             Youtubes.create($scope.formDataCreateYoutube)
                 .success(function(youtubes) {
                     $scope.resetFormData();
@@ -151,6 +161,7 @@ angular.module('clipController', [])
             var tubeObj = $scope.youtubes[$scope.tubeIdForCreatingClip];
             $scope.formDataForCreatingClip.youtubeId = tubeObj.youtubeId;
             $scope.formDataForCreatingClip.originalTitle = tubeObj.originalTitle;
+            $scope.formDataForCreatingClip.time = tubeObj.time;
         };
 
     });

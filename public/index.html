@@ -68,7 +68,7 @@
                         <div id="dropdown-clips" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <ul class="nav navbar-nav">
-                                    <li><a href="#" ng-click="hideAll(); showClips = !showClips; getClips()">list clips</a></li>
+                                    <li><a href="#" ng-click="hideAll(); showClips = !showClips; getClips(); getYoutube()">list clips</a></li>
                                     <li><a href="#" ng-click="hideAll(); showCreateClips = !showCreateClips; getYoutube(); getTags()">create new clip</a></li>
                                 </ul>
                             </div>
@@ -169,6 +169,7 @@
                             
                             <input type="text" class="form-control input-lg text-center" placeholder="youtubeId" ng-model="formDataForCreatingClip.youtubeId">
                             <input type="text" class="form-control input-lg text-center" placeholder="original title" ng-model="formDataForCreatingClip.originalTitle">
+                            <input type="text" class="form-control input-lg text-center" placeholder="timeinseconds" ng-model="formDataForCreatingClip.time">
 
                             <BR />
 
@@ -256,7 +257,7 @@
                     <form ng-submit="createYoutube()">
                         <div class="form-group">
                             <input type="text" class="form-control input-lg text-center" placeholder="youtube id" ng-model="formDataCreateYoutube.youtubeId">
-                            <!--<input type="text" class="form-control input-lg text-center" placeholder="length in HH:MM:SS" ng-model="formDataCreateYoutube.length">-->
+                            <input type="text" class="form-control input-lg text-center" placeholder="length of track in HH:MM:SS" ng-model="formDataCreateYoutube.time">
                             <input type="text" class="form-control input-lg text-center" placeholder="original title" ng-model="formDataCreateYoutube.originalTitle">
                         </div>
                         <!-- createClip() will run -->
@@ -277,6 +278,7 @@
                                 <th>validated</th>
                                 <th>original title</th>
                                 <th>uploaded</th>
+                                <th>length (seconds)</th>
                                 <th>delete</th>
                             </tr>
                             <tr ng-repeat="(key, value) in youtubes">
@@ -284,6 +286,7 @@
                                 <td>{{ value.validated }}</td>
                                 <td>{{ value.originalTitle }}</td>
                                 <td>{{ value.uploaded }}</td>
+                                <td>{{ value.time }}</td>
                                 <td>
                                     <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteYoutube(key)">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
