@@ -98,8 +98,12 @@ module.exports = function(app, clipsRef, tagsRef, tubesRef) {
 
 	app.put('/api/youtube/:tube_id/:validated', function(req, res) {
 		var tube = tubesRef.child(req.params.tube_id);
+		console.log("req.params.validated " + req.params.validated);
+		var boolean = req.params.validated === "true" ? true:false;
+		console.log("boolean " + boolean);
+		 
 		tube.update({
-		  	"validated": req.params.validated
+		  	"validated": boolean
 		});
 		tubesRef.once("value", function(snapshot) {
 		  res.json(snapshot.val());

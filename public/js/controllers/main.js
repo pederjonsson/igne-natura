@@ -52,9 +52,8 @@ angular.module('clipController', [])
 
         // delete a clip
         $scope.deleteClip = function(clipId, youtubeId) {
-            console.log("delete attempt clipId = " + clipId + " youtubeId = " + youtubeId);
+           console.log("delete attempt clipId = " + clipId + " youtubeId = " + youtubeId);
             Clips.delete(clipId)
-                // if successful creation, get all the new clips
                 .success(function(data) {
                     $scope.clips = data;
 
