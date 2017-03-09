@@ -1,7 +1,16 @@
+
+var Youtube = require('../models/youtube.js');
+
+var youtubes = [];
+
 // routes ======================================================================
+
+
 
 // expose the routes to our app with module.exports
 module.exports = function(app, clipsRef, tagsRef, tubesRef) {
+
+	var youtubeArray = [];
 
 	app.get('/', function(req, res) {
 	    res.sendfile('./public/index.html'); // load index
@@ -10,7 +19,7 @@ module.exports = function(app, clipsRef, tagsRef, tubesRef) {
 	//CLIPS
 	app.get('/api/clips', function(req, res) {
 		clipsRef.once("value", function(snapshot) {
-		  res.json(snapshot.val());
+		  	res.json(snapshot.val());
 		});
 	});
 
@@ -117,5 +126,16 @@ module.exports = function(app, clipsRef, tagsRef, tubesRef) {
 		tubesRef.once("value", function(snapshot) {
 		  res.json(snapshot.val());
 		});
+	});
+
+
+	tubesRef.on("child_added", function(snapshot, prevChildKey) {
+	  	var tube = snapshot.val();
+	  	console.log("child_added youtube prevChildKey: " + prevChildKey);
+	  	console.log("child_added youtube id: " + tube.youtubeId);
+	  	console.log("child_added snapshot key: " + snapshot.key);
+	  	var youtube = new Youtube(snapshot)
+	  	youtubes.push(youtube);
+	  	console.log("yotuube.data.val().youtubeId: ", youtube.data.val().youtubeId);
 	});
 };
