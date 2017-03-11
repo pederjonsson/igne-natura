@@ -69,7 +69,7 @@
                         <div id="dropdown-clips" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <ul class="nav navbar-nav">
-                                    <li><a href="#" ng-click="hideAll(); showClips = !showClips; getClips(); startPollingService();">list clips</a></li>
+                                    <li><a href="#" ng-click="hideAll(); showClips = !showClips; startPollingService();">list clips</a></li>
                                     <li><a href="#" ng-click="hideAll(); showCreateClips = !showCreateClips; stopPollingService();">create new clip</a></li>
                                 </ul>
                             </div>
@@ -137,14 +137,14 @@
                                 <th>violence</th>
                                 <th>delete</th>
                             </tr>
-                            <tr ng-repeat="(key, value) in clips">
-                                <td>{{ value.originalTitle }}</td>
-                                <td>{{ value.minAge }}</td>
-                                <td>{{ value.maxAge }}</td>
-                                <td>{{ value.youtubeId }}</td>
-                                <td>{{ value.violence }}</td>
+                            <tr ng-repeat="obj in clips">
+                                <td>{{ obj.value.originalTitle }}</td>
+                                <td>{{ obj.value.minAge }}</td>
+                                <td>{{ obj.value.maxAge }}</td>
+                                <td>{{ obj.value.youtubeId }}</td>
+                                <td>{{ obj.value.violence }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteClip(key,value.youtubeId)">
+                                    <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteClip(obj.key, obj.value.youtubeId)">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                     </button>
                                 </td>

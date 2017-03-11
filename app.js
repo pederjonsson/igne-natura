@@ -31,7 +31,8 @@ var tubesRef = db.ref("youtubes");
 
 
 // load the routes
-require('./app/routes/general')(app, clipsRef);
+require('./app/routes/general')(app);
+require('./app/routes/clip')(app, clipsRef);
 require('./app/routes/youtube')(app, tubesRef);
 require('./app/routes/tag')(app, tagsRef);
 

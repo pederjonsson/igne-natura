@@ -22,6 +22,58 @@ angular.module('clipController', [])
             $scope.startPollingService();
         });
 
+        var youtubePolling;
+        var tagPolling;
+        var clipPolling;
+        $scope.startPollingService = function (){
+            if(youtubePolling === undefined){
+                var tickTube = function tickTube() {
+                    youtubePolling = $timeout(tickTube, 5000);
+                    Poller.getYoutubes().success(function(youtubes){
+                        $scope.youtubes = youtubes;
+                    });
+                }();
+            }
+            
+            if(tagPolling === undefined){
+                var tickTag = function tickTag() {
+                    tagPolling = $timeout(tickTag, 5000);
+                    Poller.getTags().success(function(tags){
+                        $scope.tags = tags;
+                        
+                    });
+                }();
+            }
+
+            if(clipPolling === undefined){
+                var tickClip = function tickClip() {
+                    clipPolling = $timeout(tickClip, 5000);
+                    Poller.getClips().success(function(clips){
+                        console.log("got poll result clips: ", clips);
+                        $scope.clips = clips;
+                        
+                    });
+                }();
+            }
+
+
+        }
+
+        $scope.stopPollingService = function (){
+            if(youtubePolling !== undefined){
+                $timeout.cancel(youtubePolling);
+            }
+            if(tagPolling !== undefined){
+                $timeout.cancel(tagPolling);    
+            }
+            if(clipPolling !== undefined){
+                $timeout.cancel(clipPolling);    
+            }
+            youtubePolling = undefined;
+            tagPolling = undefined;
+            clipPolling = undefined;
+        }
+
         //hides all sections on page
         $scope.hideAll = function() {
             $scope.showClips = false;
@@ -57,19 +109,14 @@ angular.module('clipController', [])
 
         // delete a clip
         $scope.deleteClip = function(clipId, youtubeId) {
-            console.log("delete attempt clipId = " + clipId + " youtubeId = " + youtubeId);
             Clips.delete(clipId)
-                // if successful creation, get all the new clips
                 .success(function(data) {
                     $scope.clips = data;
 
-                    for (var key in $scope.youtubes) {
-                        if (!$scope.youtubes.hasOwnProperty(key)) continue;
-                        if($scope.youtubes[key].youtubeId == youtubeId){
-                            var tube = $scope.youtubes[key];
-                            console.log("foundit");
-                            $scope.updateYoutube(key, false);
-                            break;
+                    //update the validated prop on the referenced youtube that was in the clip
+                    for(var i = 0; i < $scope.youtubes.length; i++){
+                        if($scope.youtubes[i].value.youtubeId === youtubeId){
+                            $scope.updateYoutube($scope.youtubes[i].key, false);
                         }
                     }
                 });
@@ -81,7 +128,7 @@ angular.module('clipController', [])
             Tags.create($scope.formDataCreateTag)
                 .success(function(tags) {
                     $scope.resetFormData();
-                    $scope.tags = tags; // assign new list of tags
+                    $scope.tags = tags;
                 });
         };
 
@@ -128,43 +175,6 @@ angular.module('clipController', [])
             });
         };
 
-        var youtubePolling;
-        var tagPolling;
-        $scope.startPollingService = function (){
-            if(youtubePolling === undefined){
-                var tickTube = function tickTube() {
-                    youtubePolling = $timeout(tickTube, 5000);
-                    Poller.getYoutubes().success(function(youtubes){
-                        $scope.youtubes = youtubes;
-                    });
-                }();
-            }
-            
-            if(tagPolling === undefined){
-                var tickTag = function tickTag() {
-                    tagPolling = $timeout(tickTag, 5000);
-                    Poller.getTags().success(function(tags){
-                        console.log("got poll result tags: ", tags);
-                        $scope.tags = tags;
-                        
-                    });
-                }();
-            }
-
-
-        }
-
-        $scope.stopPollingService = function (){
-            if(youtubePolling !== undefined){
-                $timeout.cancel(youtubePolling);
-            }
-            if(tagPolling !== undefined){
-                $timeout.cancel(tagPolling);    
-            }
-            youtubePolling = undefined;
-            tagPolling = undefined;
-        }
-
         // delete a youtube
         $scope.deleteYoutube = function(id) {
             Youtubes.delete(id)
@@ -184,7 +194,7 @@ angular.module('clipController', [])
         };
 
         $scope.updateCreateClipFormWithYoutubeData = function(){
-
+            console.log("updateCreateClipFormWithYoutubeData");
             Youtubes.getByKey($scope.tubeKeyForCreatingClip).success(function(tubeObj){
                 console.log("tubeobj received: ", tubeObj);
                 $scope.formDataForCreatingClip.youtubeId = tubeObj.value.youtubeId;
@@ -192,5 +202,7 @@ angular.module('clipController', [])
                 $scope.formDataForCreatingClip.time = tubeObj.value.time;
             });
         };
+
+
 
     });

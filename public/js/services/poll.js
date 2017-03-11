@@ -11,6 +11,9 @@ angular.module('pollService', [])
             },
             getTags : function() {
                 return $http.get('api/poll/tags')
+            },
+            getClips : function() {
+                return $http.get('api/poll/clips')
             }
         }
 
