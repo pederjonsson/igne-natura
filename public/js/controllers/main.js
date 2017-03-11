@@ -1,6 +1,6 @@
 
 // js/controllers/main.js
-angular.module('clipController', [])
+angular.module('moduleController', [])
 
     // inject the Clip,Tag service factory into our controller
     .controller('mainController', function($scope, $http, Clips, Tags, Youtubes, Poller, $timeout) {
@@ -175,19 +175,15 @@ angular.module('clipController', [])
             });
         };
 
-        // delete a youtube
         $scope.deleteYoutube = function(id) {
             Youtubes.delete(id)
-                // if successful delete, get all youtubes again
                 .success(function(data) {
                     $scope.youtubes = data;
                 });
         };
 
-        // update a youtube
         $scope.updateYoutube = function(id, validated) {
             Youtubes.put(id, validated)
-                // if successful delete, get all youtubes again
                 .success(function(data) {
                     $scope.youtubes = data;
                 });

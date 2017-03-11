@@ -1,4 +1,4 @@
 // public/core.js
 //var ignenatura = angular.module('ignenatura', []);
 
-angular.module('ignenatura', ['clipController', 'clipService', 'tagService', 'youtubeService', 'pollService']);
+angular.module('ignenatura', ['moduleController', 'clipService', 'tagService', 'youtubeService', 'pollService']);
