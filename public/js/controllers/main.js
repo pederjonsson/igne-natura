@@ -3,7 +3,7 @@
 angular.module('clipController', [])
 
     // inject the Clip,Tag service factory into our controller
-    .controller('mainController', function($scope, $http, Clips, Tags, Youtubes) {
+    .controller('mainController', function($scope, $http, Clips, Tags, Youtubes, Poller, $timeout) {
         
 
         $scope.resetFormData = function(){
@@ -17,6 +17,10 @@ angular.module('clipController', [])
             $scope.formDataForCreatingClip.ads = false;
         }
         $scope.resetFormData();
+
+        angular.element(document).ready(function () {
+            $scope.startPollingService();
+        });
 
         //hides all sections on page
         $scope.hideAll = function() {
@@ -36,6 +40,7 @@ angular.module('clipController', [])
             .success(function(data) {
                 $scope.clips = data;
             });
+            
         };
 
         // create
@@ -137,7 +142,20 @@ angular.module('clipController', [])
                 $scope.youtubes = youtubes;
                 $scope.setUnvalidatedTubes();
             });
+
+            console.log("now use Poller");
+
+            
         };
+
+        $scope.startPollingService = function (){
+            (function tick() {
+                Poller.getYoutubes().success(function(youtubes){
+                    console.log("got poll result: ", youtubes);
+                    $timeout(tick, 5000);
+                });
+            })();
+        }
 
         // delete a youtube
         $scope.deleteYoutube = function(id) {

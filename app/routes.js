@@ -1,6 +1,5 @@
 
 var Youtube = require('../models/youtube.js');
-
 var youtubes = [];
 
 // routes ======================================================================
@@ -131,11 +130,16 @@ module.exports = function(app, clipsRef, tagsRef, tubesRef) {
 
 	tubesRef.on("child_added", function(snapshot, prevChildKey) {
 	  	var tube = snapshot.val();
-	  	console.log("child_added youtube prevChildKey: " + prevChildKey);
-	  	console.log("child_added youtube id: " + tube.youtubeId);
-	  	console.log("child_added snapshot key: " + snapshot.key);
-	  	var youtube = new Youtube(snapshot)
+	  	var youtube = new Youtube(snapshot.val(), snapshot.key);
 	  	youtubes.push(youtube);
-	  	console.log("yotuube.data.val().youtubeId: ", youtube.data.val().youtubeId);
+	});
+
+	app.get('/api/poll/youtubes', function(req, res) {
+		console.log("got poll request for api poll youtubes what is youtubes ", youtubes);
+		var obj = {
+			test:"test",
+			tubes:youtubes//JSON.parse(JSON.stringify($scope.youtubes));
+		}; 
+		res.send(youtubes);
 	});
 };
