@@ -1,6 +1,6 @@
 
 // js/controllers/main.js
-angular.module('moduleController', [])
+angular.module('moduleApp', [])
 
     // inject the Clip,Tag service factory into our controller
     .controller('mainController', function($scope, $http, Clips, Tags, Youtubes, Poller, $timeout) {
@@ -201,4 +201,28 @@ angular.module('moduleController', [])
 
 
 
+    }).directive('youtubedirective', function () {
+      return {
+        restrict: 'A',
+        replace: true,
+        templateUrl:'../../templates/youtubetemplate.html'
+      };
+    }).directive('menudirective', function () {
+      return {
+        restrict: 'A',
+        replace: true,
+        templateUrl:'../../templates/menutemplate.html'
+      };
+    }).directive('clipsdirective', function () {
+      return {
+        restrict: 'A',
+        replace: true,
+        templateUrl:'../../templates/cliptemplate.html'
+      };
+    }).directive('tagsdirective', function () {
+      return {
+        restrict: 'A',
+        replace: true,
+        templateUrl:'../../templates/tagtemplate.html'
+      };
     });

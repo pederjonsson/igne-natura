@@ -1,0 +1,51 @@
+
+<div>
+    <div id="clip-form" class="row" ng-show="showCreateYoutube">
+        <div class="col-sm-8 col-sm-offset-2 text-center">
+            <h4>CREATE YOUTUBE</h4>
+            <form ng-submit="createYoutube()">
+                <div class="form-group">
+                    <input type="text" class="form-control input-lg text-center" placeholder="youtube id" ng-model="formDataCreateYoutube.youtubeId">
+                    <input type="text" class="form-control input-lg text-center" placeholder="length of track in HH:MM:SS" ng-model="formDataCreateYoutube.time">
+                    <input type="text" class="form-control input-lg text-center" placeholder="original title" ng-model="formDataCreateYoutube.originalTitle">
+                </div>
+                <!-- createClip() will run -->
+                <button type="submit" class="btn btn-primary btn-lg" >Add</button>
+            </form>
+        </div>
+    </div>
+
+     <!-- Existing youtubes list todo: fix to table and show max 10 -->
+    <div ng-show="showYoutube">
+        <div id="youtube-list" class="row">
+            <div class="col-sm-12">
+                <h4>EXISTING YOUTUBES</h4>
+                <!-- loop over the youtubes in $scope.youtubes -->
+                <table class="table table-striped">
+                    <tr>
+                        <th>youtubeId</th>
+                        <th>validated</th>
+                        <th>original title</th>
+                        <th>uploaded</th>
+                        <th>length (seconds)</th>
+                        <th>key</th>
+                        <th>delete</th>
+                    </tr>
+                    <tr ng-repeat="obj in youtubes">
+                        <td>{{ obj.value.youtubeId }}</td>
+                        <td>{{ obj.value.validated }}</td>
+                        <td>{{ obj.value.originalTitle }}</td>
+                        <td>{{ obj.value.uploaded }}</td>
+                        <td>{{ obj.value.time }}</td>
+                        <td>{{ obj.key }}</td>
+                        <td>
+                            <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteYoutube(obj.key)">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

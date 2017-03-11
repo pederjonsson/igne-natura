@@ -1,0 +1,87 @@
+<div>
+    <div ng-show="showClips">
+                    
+        <div id="clip-list" class="row">
+            <div class="col-sm-12">
+                <h4>EXISTING CLIPS</h4>
+                <table class="table table-striped">
+                    <tr>
+                        <th>original title</th>
+                        <th>minAge</th>
+                        <th>maxAge</th>
+                        <th>tubeId</th>
+                        <th>violence</th>
+                        <th>delete</th>
+                    </tr>
+                    <tr ng-repeat="obj in clips">
+                        <td>{{ obj.value.originalTitle }}</td>
+                        <td>{{ obj.value.minAge }}</td>
+                        <td>{{ obj.value.maxAge }}</td>
+                        <td>{{ obj.value.youtubeId }}</td>
+                        <td>{{ obj.value.violence }}</td>
+                        <td>
+                            <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteClip(obj.key, obj.value.youtubeId)">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="clip-form" class="row" ng-show="showCreateClips">
+
+        <div class="col-sm-8 col-sm-offset-2 text-center">
+            <h4>CREATE CLIP</h4>
+
+            <select class="form-control" ng-change="updateCreateClipFormWithYoutubeData()" ng-model="tubeKeyForCreatingClip">
+                <option  ng-repeat="obj in youtubes | filter:{ value.validated: false }" ng-value="obj.key">{{obj.value.originalTitle}}</option>
+            </select>
+
+            <form ng-submit="createClip()">
+                <div class="form-group">
+                    
+                    <input type="text" class="form-control input-lg text-center" placeholder="youtubeId" ng-model="formDataForCreatingClip.youtubeId">
+                    <input type="text" class="form-control input-lg text-center" placeholder="original title" ng-model="formDataForCreatingClip.originalTitle">
+                    <input type="text" class="form-control input-lg text-center" placeholder="timeinseconds" ng-model="formDataForCreatingClip.time">
+
+                    <BR />
+
+                    <select class="form-control" ng-model="formDataForCreatingClip.tags" multiple>
+                      <option ng-repeat="tag in tags" ng-value="tag.value.name">{{tag.value.name}}</option>
+                    </select>
+                    {{formDataForCreatingClip.tags}}
+                    <BR />
+                    <BR />
+
+                    <select class="form-control" ng-model="formDataForCreatingClip.language">
+                        <option ng-value="universal">universal</option>
+                        <option ng-value="sv">sv</option>
+                        <option ng-value="en">en</option>
+                    </select>
+                    
+                    <BR />
+
+                    <input type="text" class="form-control input-lg text-center" placeholder="minimum recommended age" ng-model="formDataForCreatingClip.minAge">
+                    <input type="text" class="form-control input-lg text-center" placeholder="maximum recommended age" ng-model="formDataForCreatingClip.maxAge">
+
+                    <BR />
+
+                    <label class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" ng-model="formDataForCreatingClip.violence" ng-init="formDataForCreatingClip.violence=false">
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-description">Contains violence?</span>
+                    </label>
+
+                    <label class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" ng-model="formDataForCreatingClip.ads" ng-init="formDataForCreatingClip.ads=false">
+                      <span class="custom-control-indicator"></span>
+                      <span class="custom-control-description">Contains ads?</span>
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg" >Add</button>
+            </form>
+        </div>
+    </div>
+</div>

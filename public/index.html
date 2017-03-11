@@ -29,280 +29,35 @@
 
 </head>
 
-<body ng-controller="mainController">
+<body >
 
-<div class="row">
-    <!-- uncomment code for absolute positioning tweek see top comment in css -->
-    <!-- <div class="absolute-wrapper"> </div> -->
-    <!-- Menu -->
-    <div class="side-menu">
-    
-        <nav class="navbar navbar-default" role="navigation">
-            <div class="navbar-header">
-                <div class="brand-wrapper">
-                    <!-- Hamburger -->
-                    <button type="button" class="navbar-toggle">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
+    <div class="row" ng-controller="mainController">
+        <!-- Menu -->
+        <div menudirective>
+        </div>
 
-                    <!-- Brand -->
-                    <div class="brand-name-wrapper">
-                        <a class="navbar-brand" href="#">
-                            Igne natura
-                        </a>
-                    </div>
+        <!-- Main Content -->
+        <div class="container-fluid">
+            <div class="side-body">
+               
+               <!-- HEADER -->
+                <div class="text-center">
+                    <h1>Admin</h1>
                 </div>
-            </div>
 
-            <!-- Main Menu -->
-            <div class="side-menu-container">
-                <ul class="nav navbar-nav">
-                    <!-- Clips-->
-                    <li class="panel panel-default" id="dropdown">
-                        <a data-toggle="collapse" href="#dropdown-clips">
-                            <span class="glyphicons glyphicons-adjust-alt"></span> Clips <span class="caret"></span>
-                        </a>
-
-                        <div id="dropdown-clips" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <ul class="nav navbar-nav">
-                                    <li><a href="#" ng-click="hideAll(); showClips = !showClips; startPollingService();">list clips</a></li>
-                                    <li><a href="#" ng-click="hideAll(); showCreateClips = !showCreateClips; stopPollingService();">create new clip</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-
-                    <!-- Tags -->
-                    <li class="panel panel-default" id="dropdown">
-                        <a data-toggle="collapse" href="#dropdown-tags">
-                            <span class="glyphicons glyphicons-tag"></span> Tags <span class="caret"></span>
-                        </a>
-
-                        <div id="dropdown-tags" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <ul class="nav navbar-nav">
-                                    <li><a href="#" ng-click="hideAll(); showTags = !showTags; startPollingService();">edit tags</a></li>
-                                    <li><a href="#" ng-click="hideAll(); showCreateTag = !showCreateTag; startPollingService();">create tag</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-
-                    <!-- Youtube -->
-                    <li class="panel panel-default" id="dropdown">
-                        <a data-toggle="collapse" href="#dropdown-utube">
-                            <span class="glyphicons glyphicons-film"></span> Youtube <span class="caret"></span>
-                        </a>
-
-                        <div id="dropdown-utube" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <ul class="nav navbar-nav">
-                                    <li><a href="#" ng-click="hideAll(); showYoutube = !showYoutube; startPollingService();">handle youtube clips</a></li>
-                                    <li><a href="#" ng-click="hideAll(); showCreateYoutube = !showCreateYoutube; startPollingService();">create youtube clip</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div><!-- /.navbar-collapse -->
-        </nav>
-    </div>
-
-    <!-- Main Content -->
-    <div class="container-fluid">
-        <div class="side-body">
-           
-           <!-- HEADER -->
-            <div class="text-center">
-                <h1>Admin</h1>
-            </div>
-
-            <!-- Existing clips list todo: fix to table and show max 10 -->
-            <div ng-show="showClips">
-                
-                <div id="clip-list" class="row">
-                    <div class="col-sm-12">
-                        <h4>EXISTING CLIPS</h4>
-                        <!-- loop over the clips in $scope.clips -->
-                        <table class="table table-striped">
-                            <tr>
-                                <th>original title</th>
-                                <th>minAge</th>
-                                <th>maxAge</th>
-                                <th>tubeId</th>
-                                <th>violence</th>
-                                <th>delete</th>
-                            </tr>
-                            <tr ng-repeat="obj in clips">
-                                <td>{{ obj.value.originalTitle }}</td>
-                                <td>{{ obj.value.minAge }}</td>
-                                <td>{{ obj.value.maxAge }}</td>
-                                <td>{{ obj.value.youtubeId }}</td>
-                                <td>{{ obj.value.violence }}</td>
-                                <td>
-                                    <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteClip(obj.key, obj.value.youtubeId)">
-                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                    </button>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+                <div clipsdirective>
                 </div>
-            </div>
-            
-            <!-- CREATE CLIP -->
-            <div id="clip-form" class="row" ng-show="showCreateClips">
 
-                <div class="col-sm-8 col-sm-offset-2 text-center">
-                    <h4>CREATE CLIP</h4>
 
-                    <select class="form-control" ng-change="updateCreateClipFormWithYoutubeData()" ng-model="tubeKeyForCreatingClip">
-                        <option  ng-repeat="obj in youtubes | filter:{ value.validated: false }" ng-value="obj.key">{{obj.value.originalTitle}}</option>
-                    </select>
-
-                    <form ng-submit="createClip()">
-                        <div class="form-group">
-                            
-                            <input type="text" class="form-control input-lg text-center" placeholder="youtubeId" ng-model="formDataForCreatingClip.youtubeId">
-                            <input type="text" class="form-control input-lg text-center" placeholder="original title" ng-model="formDataForCreatingClip.originalTitle">
-                            <input type="text" class="form-control input-lg text-center" placeholder="timeinseconds" ng-model="formDataForCreatingClip.time">
-
-                            <BR />
-
-                            <select class="form-control" ng-model="formDataForCreatingClip.tags" multiple>
-                              <option ng-repeat="tag in tags" ng-value="tag.value.name">{{tag.value.name}}</option>
-                            </select>
-                            {{formDataForCreatingClip.tags}}
-                            <BR />
-                            <BR />
-
-                            <select class="form-control" ng-model="formDataForCreatingClip.language">
-                                <option ng-value="universal">universal</option>
-                                <option ng-value="sv">sv</option>
-                                <option ng-value="en">en</option>
-                            </select>
-                            
-                            <BR />
-
-                            <input type="text" class="form-control input-lg text-center" placeholder="minimum recommended age" ng-model="formDataForCreatingClip.minAge">
-                            <input type="text" class="form-control input-lg text-center" placeholder="maximum recommended age" ng-model="formDataForCreatingClip.maxAge">
-
-                            <BR />
-
-                            <label class="custom-control custom-checkbox">
-                              <input type="checkbox" class="custom-control-input" ng-model="formDataForCreatingClip.violence" ng-init="formDataForCreatingClip.violence=false">
-                              <span class="custom-control-indicator"></span>
-                              <span class="custom-control-description">Contains violence?</span>
-                            </label>
-
-                            <label class="custom-control custom-checkbox">
-                              <input type="checkbox" class="custom-control-input" ng-model="formDataForCreatingClip.ads" ng-init="formDataForCreatingClip.ads=false">
-                              <span class="custom-control-indicator"></span>
-                              <span class="custom-control-description">Contains ads?</span>
-                            </label>
-                        </div>
-                        <!-- createClip() will run -->
-                        <button type="submit" class="btn btn-primary btn-lg" >Add</button>
-                    </form>
+                <div tagsdirective>
                 </div>
-            </div>
 
-             <!-- Existing tags. todo: show 1-10 etc -->
-            <div ng-show="showTags">
-                
-                <div id="youtube-list" class="row">
-                    <div class="col-sm-12">
-                        <h4>EXISTING TAGS</h4>
-                        <!-- loop over the tags in $scope.tags -->
-                        <table class="table table-striped">
-                            <tr>
-                                <th>name</th>
-                                <th>delete</th>
-                            </tr>
-                            <tr ng-repeat="obj in tags">
-                                <td>{{ obj.value.name }}</td>
-                                <td>
-                                    <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteTag(obj.key)">
-                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                    </button>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+                <div youtubedirective>
                 </div>
+             
             </div>
-
-            <!-- CREATE TAG -->
-            <div id="clip-form" class="row" ng-show="showCreateTag">
-                <div class="col-sm-8 col-sm-offset-2 text-center">
-                    <h4>CREATE TAG</h4>
-                    <form ng-submit="createTag()">
-                        <div class="form-group">
-                            <input type="text" class="form-control input-lg text-center" placeholder="name of tag" ng-model="formDataCreateTag.name">
-                        </div>
-                        <!-- createClip() will run -->
-                        <button type="submit" class="btn btn-primary btn-lg" >Add</button>
-                    </form>
-                </div>
-            </div>
-
-            <!-- CREATE YOUTUBE -->
-            <div id="clip-form" class="row" ng-show="showCreateYoutube">
-                <div class="col-sm-8 col-sm-offset-2 text-center">
-                    <h4>CREATE YOUTUBE</h4>
-                    <form ng-submit="createYoutube()">
-                        <div class="form-group">
-                            <input type="text" class="form-control input-lg text-center" placeholder="youtube id" ng-model="formDataCreateYoutube.youtubeId">
-                            <input type="text" class="form-control input-lg text-center" placeholder="length of track in HH:MM:SS" ng-model="formDataCreateYoutube.time">
-                            <input type="text" class="form-control input-lg text-center" placeholder="original title" ng-model="formDataCreateYoutube.originalTitle">
-                        </div>
-                        <!-- createClip() will run -->
-                        <button type="submit" class="btn btn-primary btn-lg" >Add</button>
-                    </form>
-                </div>
-            </div>
-
-             <!-- Existing youtubes list todo: fix to table and show max 10 -->
-            <div ng-show="showYoutube">
-                <div id="youtube-list" class="row">
-                    <div class="col-sm-12">
-                        <h4>EXISTING YOUTUBES</h4>
-                        <!-- loop over the youtubes in $scope.youtubes -->
-                        <table class="table table-striped">
-                            <tr>
-                                <th>youtubeId</th>
-                                <th>validated</th>
-                                <th>original title</th>
-                                <th>uploaded</th>
-                                <th>length (seconds)</th>
-                                <th>key</th>
-                                <th>delete</th>
-                            </tr>
-                            <tr ng-repeat="obj in youtubes">
-                                <td>{{ obj.value.youtubeId }}</td>
-                                <td>{{ obj.value.validated }}</td>
-                                <td>{{ obj.value.originalTitle }}</td>
-                                <td>{{ obj.value.uploaded }}</td>
-                                <td>{{ obj.value.time }}</td>
-                                <td>{{ obj.key }}</td>
-                                <td>
-                                    <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteYoutube(obj.key)">
-                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                    </button>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-         
         </div>
     </div>
-</div>
 
 </body>
 </html>

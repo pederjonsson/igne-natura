@@ -1,0 +1,77 @@
+
+    <div class="side-menu">
+    
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <div class="brand-wrapper">
+                    <!-- Hamburger -->
+                    <button type="button" class="navbar-toggle">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <!-- Brand -->
+                    <div class="brand-name-wrapper">
+                        <a class="navbar-brand" href="#">
+                            Igne natura
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Menu -->
+            <div class="side-menu-container">
+                <ul class="nav navbar-nav">
+                    <!-- Clips-->
+                    <li class="panel panel-default" id="dropdown">
+                        <a data-toggle="collapse" href="#dropdown-clips">
+                            <span class="glyphicons glyphicons-adjust-alt"></span> Clips <span class="caret"></span>
+                        </a>
+
+                        <div id="dropdown-clips" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul class="nav navbar-nav">
+                                    <li><a href="#" ng-click="hideAll(); showClips = !showClips; startPollingService();">list clips</a></li>
+                                    <li><a href="#" ng-click="hideAll(); showCreateClips = !showCreateClips; stopPollingService();">create new clip</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- Tags -->
+                    <li class="panel panel-default" id="dropdown">
+                        <a data-toggle="collapse" href="#dropdown-tags">
+                            <span class="glyphicons glyphicons-tag"></span> Tags <span class="caret"></span>
+                        </a>
+
+                        <div id="dropdown-tags" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul class="nav navbar-nav">
+                                    <li><a href="#" ng-click="hideAll(); showTags = !showTags; startPollingService();">edit tags</a></li>
+                                    <li><a href="#" ng-click="hideAll(); showCreateTag = !showCreateTag; startPollingService();">create tag</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- Youtube -->
+                    <li class="panel panel-default" id="dropdown">
+                        <a data-toggle="collapse" href="#dropdown-utube">
+                            <span class="glyphicons glyphicons-film"></span> Youtube <span class="caret"></span>
+                        </a>
+
+                        <div id="dropdown-utube" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul class="nav navbar-nav">
+                                    <li><a href="#" ng-click="hideAll(); showYoutube = !showYoutube; startPollingService();">handle youtube clips</a></li>
+                                    <li><a href="#" ng-click="hideAll(); showCreateYoutube = !showCreateYoutube; startPollingService();">create youtube clip</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
