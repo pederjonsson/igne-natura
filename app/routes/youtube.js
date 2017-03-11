@@ -62,7 +62,6 @@ module.exports = function(app, tubesRef) {
 	tubesRef.on("child_added", function(snapshot, prevChildKey) {
 	  	var tube = snapshot.val();
 	  	var youtube = new Youtube(snapshot.val(), snapshot.key);
-	  	console.log("created tube with key: " + youtube.key);
 	  	youtubes.push(youtube);
 	});
 

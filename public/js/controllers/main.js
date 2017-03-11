@@ -165,11 +165,6 @@ angular.module('clipController', [])
                 $scope.formDataForCreatingClip.originalTitle = tubeObj.value.originalTitle;
                 $scope.formDataForCreatingClip.time = tubeObj.value.time;
             });
-
-           /* var tubeObj = $scope.youtubes[$scope.tubeKeyForCreatingClip];
-            $scope.formDataForCreatingClip.youtubeId = tubeObj.youtubeId;
-            $scope.formDataForCreatingClip.originalTitle = tubeObj.originalTitle;
-            $scope.formDataForCreatingClip.time = tubeObj.time;*/
         };
 
     });
