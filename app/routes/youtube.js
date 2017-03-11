@@ -6,7 +6,7 @@ var youtubes = [];
 module.exports = function(app, tubesRef) {
 
 	var youtubeArray = [];
-	
+
 	app.post('/api/youtube', function(req, res) {
 	 	var newPostRef = tubesRef.push();
 		newPostRef.set({
@@ -24,6 +24,7 @@ module.exports = function(app, tubesRef) {
 	});
 
 	app.get('/api/youtubes', function(req, res) {
+		console.log("getyoutubes called");
 		tubesRef.once("value", function(snapshot) {
 		  res.json(snapshot.val());
 		});
@@ -40,6 +41,7 @@ module.exports = function(app, tubesRef) {
 	});
 
 	app.get('/api/youtubes/unvalidated', function(req, res) {
+		console.log("/api/youtubes/unvalidated called");
 		tubesRef.orderByChild("validated").equalTo(false).on("child_added", function(snapshot) {
 		  console.log(snapshot.key);
 		});
@@ -52,15 +54,14 @@ module.exports = function(app, tubesRef) {
 		});
 	});
 
-
 	tubesRef.on("child_added", function(snapshot, prevChildKey) {
+		console.log("child_added youtube");
 	  	var tube = snapshot.val();
 	  	var youtube = new Youtube(snapshot.val(), snapshot.key);
 	  	youtubes.push(youtube);
 	});
 
 	app.get('/api/poll/youtubes', function(req, res) {
-		console.log("got poll request for api poll youtubes what is youtubes ", youtubes);
 		res.send(youtubes);
 	});
 };

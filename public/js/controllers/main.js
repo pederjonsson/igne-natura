@@ -121,37 +121,19 @@ angular.module('clipController', [])
                 });
         };
 
-        $scope.setUnvalidatedTubes = function(){
-
-            $scope.unvalidatedTubes = JSON.parse(JSON.stringify($scope.youtubes));
-
-            for (var key in $scope.unvalidatedTubes) {
-                // skip loop if the property is from prototype
-                if (!$scope.unvalidatedTubes.hasOwnProperty(key)) continue;
-
-                var tube = $scope.unvalidatedTubes[key];
-                if(tube.validated){
-                    delete $scope.unvalidatedTubes[key];
-                }
-            }
-        };
-
         $scope.getYoutube = function() {
             Youtubes.get()
             .success(function(youtubes) {
-                $scope.youtubes = youtubes;
-                $scope.setUnvalidatedTubes();
+                //TODO: is this function needed?
+               //console.log("original youtubes = ", youtubes)
             });
-
-            console.log("now use Poller");
-
-            
         };
 
         $scope.startPollingService = function (){
             (function tick() {
                 Poller.getYoutubes().success(function(youtubes){
-                    console.log("got poll result: ", youtubes);
+                    console.log("got poll result youtubes: ", youtubes);
+                    $scope.youtubes = youtubes;
                     $timeout(tick, 5000);
                 });
             })();
