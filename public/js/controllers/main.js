@@ -1,22 +1,78 @@
 
 // js/controllers/main.js
-angular.module('clipController', [])
+angular.module('moduleController', [])
 
     // inject the Clip,Tag service factory into our controller
-    .controller('mainController', function($scope, $http, Clips, Tags, Youtubes) {
+    .controller('mainController', function($scope, $http, Clips, Tags, Youtubes, Poller, $timeout) {
         
 
         $scope.resetFormData = function(){
             $scope.formDataForCreatingClip = {
                 tags: []
             };
-            $scope.tubeIdForCreatingClip = "";
+            $scope.tubeKeyForCreatingClip = "";
             $scope.formDataCreateTag = {};
             $scope.formDataCreateYoutube = {};
             $scope.formDataForCreatingClip.violence = false;
             $scope.formDataForCreatingClip.ads = false;
         }
         $scope.resetFormData();
+
+        angular.element(document).ready(function () {
+            $scope.startPollingService();
+        });
+
+        var youtubePolling;
+        var tagPolling;
+        var clipPolling;
+        $scope.startPollingService = function (){
+            if(youtubePolling === undefined){
+                var tickTube = function tickTube() {
+                    youtubePolling = $timeout(tickTube, 5000);
+                    Poller.getYoutubes().success(function(youtubes){
+                        $scope.youtubes = youtubes;
+                    });
+                }();
+            }
+            
+            if(tagPolling === undefined){
+                var tickTag = function tickTag() {
+                    tagPolling = $timeout(tickTag, 5000);
+                    Poller.getTags().success(function(tags){
+                        $scope.tags = tags;
+                        
+                    });
+                }();
+            }
+
+            if(clipPolling === undefined){
+                var tickClip = function tickClip() {
+                    clipPolling = $timeout(tickClip, 5000);
+                    Poller.getClips().success(function(clips){
+                        console.log("got poll result clips: ", clips);
+                        $scope.clips = clips;
+                        
+                    });
+                }();
+            }
+
+
+        }
+
+        $scope.stopPollingService = function (){
+            if(youtubePolling !== undefined){
+                $timeout.cancel(youtubePolling);
+            }
+            if(tagPolling !== undefined){
+                $timeout.cancel(tagPolling);    
+            }
+            if(clipPolling !== undefined){
+                $timeout.cancel(clipPolling);    
+            }
+            youtubePolling = undefined;
+            tagPolling = undefined;
+            clipPolling = undefined;
+        }
 
         //hides all sections on page
         $scope.hideAll = function() {
@@ -36,6 +92,7 @@ angular.module('clipController', [])
             .success(function(data) {
                 $scope.clips = data;
             });
+            
         };
 
         // create
@@ -43,7 +100,7 @@ angular.module('clipController', [])
             if (!$.isEmptyObject($scope.formDataForCreatingClip)) {
                 Clips.create($scope.formDataForCreatingClip)
                     .success(function(data) {
-                        $scope.updateYoutube($scope.tubeIdForCreatingClip, true);
+                        $scope.updateYoutube($scope.tubeKeyForCreatingClip, true);
                         $scope.resetFormData();
                         $scope.clips = data;
                     });
@@ -52,18 +109,14 @@ angular.module('clipController', [])
 
         // delete a clip
         $scope.deleteClip = function(clipId, youtubeId) {
-           console.log("delete attempt clipId = " + clipId + " youtubeId = " + youtubeId);
             Clips.delete(clipId)
                 .success(function(data) {
                     $scope.clips = data;
 
-                    for (var key in $scope.youtubes) {
-                        if (!$scope.youtubes.hasOwnProperty(key)) continue;
-                        if($scope.youtubes[key].youtubeId == youtubeId){
-                            var tube = $scope.youtubes[key];
-                            console.log("foundit");
-                            $scope.updateYoutube(key, false);
-                            break;
+                    //update the validated prop on the referenced youtube that was in the clip
+                    for(var i = 0; i < $scope.youtubes.length; i++){
+                        if($scope.youtubes[i].value.youtubeId === youtubeId){
+                            $scope.updateYoutube($scope.youtubes[i].key, false);
                         }
                     }
                 });
@@ -75,7 +128,7 @@ angular.module('clipController', [])
             Tags.create($scope.formDataCreateTag)
                 .success(function(tags) {
                     $scope.resetFormData();
-                    $scope.tags = tags; // assign new list of tags
+                    $scope.tags = tags;
                 });
         };
 
@@ -115,52 +168,37 @@ angular.module('clipController', [])
                 });
         };
 
-        $scope.setUnvalidatedTubes = function(){
-
-            $scope.unvalidatedTubes = JSON.parse(JSON.stringify($scope.youtubes));
-
-            for (var key in $scope.unvalidatedTubes) {
-                // skip loop if the property is from prototype
-                if (!$scope.unvalidatedTubes.hasOwnProperty(key)) continue;
-
-                var tube = $scope.unvalidatedTubes[key];
-                if(tube.validated){
-                    delete $scope.unvalidatedTubes[key];
-                }
-            }
-        };
-
         $scope.getYoutube = function() {
             Youtubes.get()
             .success(function(youtubes) {
-                $scope.youtubes = youtubes;
-                $scope.setUnvalidatedTubes();
+                //TODO: is this function needed?
             });
         };
 
-        // delete a youtube
         $scope.deleteYoutube = function(id) {
             Youtubes.delete(id)
-                // if successful delete, get all youtubes again
                 .success(function(data) {
                     $scope.youtubes = data;
                 });
         };
 
-        // update a youtube
         $scope.updateYoutube = function(id, validated) {
             Youtubes.put(id, validated)
-                // if successful delete, get all youtubes again
                 .success(function(data) {
                     $scope.youtubes = data;
                 });
         };
 
         $scope.updateCreateClipFormWithYoutubeData = function(){
-            var tubeObj = $scope.youtubes[$scope.tubeIdForCreatingClip];
-            $scope.formDataForCreatingClip.youtubeId = tubeObj.youtubeId;
-            $scope.formDataForCreatingClip.originalTitle = tubeObj.originalTitle;
-            $scope.formDataForCreatingClip.time = tubeObj.time;
+            console.log("updateCreateClipFormWithYoutubeData");
+            Youtubes.getByKey($scope.tubeKeyForCreatingClip).success(function(tubeObj){
+                console.log("tubeobj received: ", tubeObj);
+                $scope.formDataForCreatingClip.youtubeId = tubeObj.value.youtubeId;
+                $scope.formDataForCreatingClip.originalTitle = tubeObj.value.originalTitle;
+                $scope.formDataForCreatingClip.time = tubeObj.value.time;
+            });
         };
+
+
 
     });

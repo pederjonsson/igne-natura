@@ -31,7 +31,10 @@ var tubesRef = db.ref("youtubes");
 
 
 // load the routes
-require('./app/routes')(app, clipsRef, tagsRef, tubesRef);
+require('./app/routes/general')(app);
+require('./app/routes/clip')(app, clipsRef);
+require('./app/routes/youtube')(app, tubesRef);
+require('./app/routes/tag')(app, tagsRef);
 
 app.listen(8080, function () {
   console.log('Example app listening on port 8080!')

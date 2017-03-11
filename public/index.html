@@ -23,6 +23,7 @@
     <script src="js/services/clips.js"></script> <!-- load our clip service -->
     <script src="js/services/tags.js"></script> <!-- load our tag service -->
     <script src="js/services/youtubes.js"></script> <!-- load youtube service -->
+    <script src="js/services/poll.js"></script> <!-- load poll service -->
     <script src="js/core.js"></script> <!-- load our main application -->
     <script src="js/sidemenu.js"></script>
 
@@ -68,8 +69,8 @@
                         <div id="dropdown-clips" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <ul class="nav navbar-nav">
-                                    <li><a href="#" ng-click="hideAll(); showClips = !showClips; getClips(); getYoutube()">list clips</a></li>
-                                    <li><a href="#" ng-click="hideAll(); showCreateClips = !showCreateClips; getYoutube(); getTags()">create new clip</a></li>
+                                    <li><a href="#" ng-click="hideAll(); showClips = !showClips; startPollingService();">list clips</a></li>
+                                    <li><a href="#" ng-click="hideAll(); showCreateClips = !showCreateClips; stopPollingService();">create new clip</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -84,8 +85,8 @@
                         <div id="dropdown-tags" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <ul class="nav navbar-nav">
-                                    <li><a href="#" ng-click="hideAll(); showTags = !showTags; getTags()">edit tags</a></li>
-                                    <li><a href="#" ng-click="hideAll(); showCreateTag = !showCreateTag">create tag</a></li>
+                                    <li><a href="#" ng-click="hideAll(); showTags = !showTags; startPollingService();">edit tags</a></li>
+                                    <li><a href="#" ng-click="hideAll(); showCreateTag = !showCreateTag; startPollingService();">create tag</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -100,8 +101,8 @@
                         <div id="dropdown-utube" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <ul class="nav navbar-nav">
-                                    <li><a href="#" ng-click="hideAll(); showYoutube = !showYoutube; getYoutube()">handle youtube clips</a></li>
-                                    <li><a href="#" ng-click="hideAll(); showCreateYoutube = !showCreateYoutube">create youtube clip</a></li>
+                                    <li><a href="#" ng-click="hideAll(); showYoutube = !showYoutube; startPollingService();">handle youtube clips</a></li>
+                                    <li><a href="#" ng-click="hideAll(); showCreateYoutube = !showCreateYoutube; startPollingService();">create youtube clip</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -136,14 +137,14 @@
                                 <th>violence</th>
                                 <th>delete</th>
                             </tr>
-                            <tr ng-repeat="(key, value) in clips">
-                                <td>{{ value.originalTitle }}</td>
-                                <td>{{ value.minAge }}</td>
-                                <td>{{ value.maxAge }}</td>
-                                <td>{{ value.youtubeId }}</td>
-                                <td>{{ value.violence }}</td>
+                            <tr ng-repeat="obj in clips">
+                                <td>{{ obj.value.originalTitle }}</td>
+                                <td>{{ obj.value.minAge }}</td>
+                                <td>{{ obj.value.maxAge }}</td>
+                                <td>{{ obj.value.youtubeId }}</td>
+                                <td>{{ obj.value.violence }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteClip(key,value.youtubeId)">
+                                    <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteClip(obj.key, obj.value.youtubeId)">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                     </button>
                                 </td>
@@ -159,9 +160,8 @@
                 <div class="col-sm-8 col-sm-offset-2 text-center">
                     <h4>CREATE CLIP</h4>
 
-                   
-                    <select class="form-control" ng-change="updateCreateClipFormWithYoutubeData()" ng-model="tubeIdForCreatingClip">
-                        <option ng-repeat="(key,tube) in unvalidatedTubes" ng-value="key">{{tube.originalTitle}}</option>
+                    <select class="form-control" ng-change="updateCreateClipFormWithYoutubeData()" ng-model="tubeKeyForCreatingClip">
+                        <option  ng-repeat="obj in youtubes | filter:{ value.validated: false }" ng-value="obj.key">{{obj.value.originalTitle}}</option>
                     </select>
 
                     <form ng-submit="createClip()">
@@ -174,7 +174,7 @@
                             <BR />
 
                             <select class="form-control" ng-model="formDataForCreatingClip.tags" multiple>
-                              <option ng-repeat="tag in tags" ng-value="tag.name">{{tag.name}}</option>
+                              <option ng-repeat="tag in tags" ng-value="tag.value.name">{{tag.value.name}}</option>
                             </select>
                             {{formDataForCreatingClip.tags}}
                             <BR />
@@ -223,10 +223,10 @@
                                 <th>name</th>
                                 <th>delete</th>
                             </tr>
-                            <tr ng-repeat="(key, value) in tags">
-                                <td>{{ value.name }}</td>
+                            <tr ng-repeat="obj in tags">
+                                <td>{{ obj.value.name }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteTag(key)">
+                                    <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteTag(obj.key)">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                     </button>
                                 </td>
@@ -279,16 +279,18 @@
                                 <th>original title</th>
                                 <th>uploaded</th>
                                 <th>length (seconds)</th>
+                                <th>key</th>
                                 <th>delete</th>
                             </tr>
-                            <tr ng-repeat="(key, value) in youtubes">
-                                <td>{{ value.youtubeId }}</td>
-                                <td>{{ value.validated }}</td>
-                                <td>{{ value.originalTitle }}</td>
-                                <td>{{ value.uploaded }}</td>
-                                <td>{{ value.time }}</td>
+                            <tr ng-repeat="obj in youtubes">
+                                <td>{{ obj.value.youtubeId }}</td>
+                                <td>{{ obj.value.validated }}</td>
+                                <td>{{ obj.value.originalTitle }}</td>
+                                <td>{{ obj.value.uploaded }}</td>
+                                <td>{{ obj.value.time }}</td>
+                                <td>{{ obj.key }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteYoutube(key)">
+                                    <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteYoutube(obj.key)">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                     </button>
                                 </td>
