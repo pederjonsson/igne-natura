@@ -5,8 +5,6 @@ var youtubes = [];
 // youtube routes ======================================================================
 module.exports = function(app, tubesRef) {
 
-	var youtubeArray = [];
-
 	app.post('/api/youtube', function(req, res) {
 	 	var newPostRef = tubesRef.push();
 		newPostRef.set({

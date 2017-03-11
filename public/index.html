@@ -69,8 +69,8 @@
                         <div id="dropdown-clips" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <ul class="nav navbar-nav">
-                                    <li><a href="#" ng-click="hideAll(); showClips = !showClips; getClips();">list clips</a></li>
-                                    <li><a href="#" ng-click="hideAll(); showCreateClips = !showCreateClips; getTags()">create new clip</a></li>
+                                    <li><a href="#" ng-click="hideAll(); showClips = !showClips; getClips(); startPollingService();">list clips</a></li>
+                                    <li><a href="#" ng-click="hideAll(); showCreateClips = !showCreateClips; stopPollingService();">create new clip</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -85,8 +85,8 @@
                         <div id="dropdown-tags" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <ul class="nav navbar-nav">
-                                    <li><a href="#" ng-click="hideAll(); showTags = !showTags; getTags()">edit tags</a></li>
-                                    <li><a href="#" ng-click="hideAll(); showCreateTag = !showCreateTag">create tag</a></li>
+                                    <li><a href="#" ng-click="hideAll(); showTags = !showTags; startPollingService();">edit tags</a></li>
+                                    <li><a href="#" ng-click="hideAll(); showCreateTag = !showCreateTag; startPollingService();">create tag</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -101,8 +101,8 @@
                         <div id="dropdown-utube" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <ul class="nav navbar-nav">
-                                    <li><a href="#" ng-click="hideAll(); showYoutube = !showYoutube;">handle youtube clips</a></li>
-                                    <li><a href="#" ng-click="hideAll(); showCreateYoutube = !showCreateYoutube">create youtube clip</a></li>
+                                    <li><a href="#" ng-click="hideAll(); showYoutube = !showYoutube; startPollingService();">handle youtube clips</a></li>
+                                    <li><a href="#" ng-click="hideAll(); showCreateYoutube = !showCreateYoutube; startPollingService();">create youtube clip</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -174,7 +174,7 @@
                             <BR />
 
                             <select class="form-control" ng-model="formDataForCreatingClip.tags" multiple>
-                              <option ng-repeat="tag in tags" ng-value="tag.name">{{tag.name}}</option>
+                              <option ng-repeat="tag in tags" ng-value="tag.value.name">{{tag.value.name}}</option>
                             </select>
                             {{formDataForCreatingClip.tags}}
                             <BR />
@@ -223,10 +223,10 @@
                                 <th>name</th>
                                 <th>delete</th>
                             </tr>
-                            <tr ng-repeat="(key, value) in tags">
-                                <td>{{ value.name }}</td>
+                            <tr ng-repeat="obj in tags">
+                                <td>{{ obj.value.name }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteTag(key)">
+                                    <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteTag(obj.key)">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                     </button>
                                 </td>

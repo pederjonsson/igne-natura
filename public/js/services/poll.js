@@ -8,6 +8,10 @@ angular.module('pollService', [])
         return {
             getYoutubes : function() {
                 return $http.get('api/poll/youtubes')
+            },
+            getTags : function() {
+                return $http.get('api/poll/tags')
             }
         }
+
     });

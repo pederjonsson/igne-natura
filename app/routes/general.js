@@ -2,7 +2,7 @@
 // routes ======================================================================
 
 // expose the routes to our app with module.exports
-module.exports = function(app, clipsRef, tagsRef) {
+module.exports = function(app, clipsRef) {
 
 	app.get('/', function(req, res) {
 	    res.sendfile('./public/index.html'); // load index
@@ -45,31 +45,6 @@ module.exports = function(app, clipsRef, tagsRef) {
 	app.delete('/api/clip/:clip_id', function(req, res) {
 		clipsRef.child(req.params.clip_id).remove();
 		clipsRef.once("value", function(snapshot) {
-		  	res.json(snapshot.val());
-		});
-	});
-
-	//TAGS
-	app.post('/api/tag', function(req, res) {
-	 	var newPostRef = tagsRef.push();
-		newPostRef.set({
-		  	name: req.body.name
-		});
-		tagsRef.once("value", function(snapshot) {
-		  	res.json(snapshot.val());
-		});
-	});
-
-	app.get('/api/tags', function(req, res) {
-		tagsRef.once("value", function(snapshot) {
-		  	res.json(snapshot.val());
-		});
-	});
-
-	app.delete('/api/tag/:tag_id', function(req, res) {
-		tagsRef.child(req.params.tag_id).remove();
-
-		tagsRef.once("value", function(snapshot) {
 		  	res.json(snapshot.val());
 		});
 	});

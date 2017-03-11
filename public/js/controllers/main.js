@@ -125,18 +125,44 @@ angular.module('clipController', [])
             Youtubes.get()
             .success(function(youtubes) {
                 //TODO: is this function needed?
-               //console.log("original youtubes = ", youtubes)
             });
         };
 
+        var youtubePolling;
+        var tagPolling;
         $scope.startPollingService = function (){
-            (function tick() {
-                Poller.getYoutubes().success(function(youtubes){
-                    console.log("got poll result youtubes: ", youtubes);
-                    $scope.youtubes = youtubes;
-                    $timeout(tick, 5000);
-                });
-            })();
+            if(youtubePolling === undefined){
+                var tickTube = function tickTube() {
+                    youtubePolling = $timeout(tickTube, 5000);
+                    Poller.getYoutubes().success(function(youtubes){
+                        $scope.youtubes = youtubes;
+                    });
+                }();
+            }
+            
+            if(tagPolling === undefined){
+                var tickTag = function tickTag() {
+                    tagPolling = $timeout(tickTag, 5000);
+                    Poller.getTags().success(function(tags){
+                        console.log("got poll result tags: ", tags);
+                        $scope.tags = tags;
+                        
+                    });
+                }();
+            }
+
+
+        }
+
+        $scope.stopPollingService = function (){
+            if(youtubePolling !== undefined){
+                $timeout.cancel(youtubePolling);
+            }
+            if(tagPolling !== undefined){
+                $timeout.cancel(tagPolling);    
+            }
+            youtubePolling = undefined;
+            tagPolling = undefined;
         }
 
         // delete a youtube
