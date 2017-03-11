@@ -6,6 +6,9 @@ angular.module('youtubeService', [])
             get : function() {
                 return $http.get('/api/youtubes');
             },
+            getByKey : function(key) {
+                return $http.get('/api/youtube/' + key);
+            },
             create : function(youtubeData) {
                 return $http.post('/api/youtube', youtubeData);
             },

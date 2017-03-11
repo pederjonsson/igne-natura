@@ -26,8 +26,13 @@ module.exports = function(app, tubesRef) {
 	app.get('/api/youtubes', function(req, res) {
 		console.log("getyoutubes called");
 		tubesRef.once("value", function(snapshot) {
-		  res.json(snapshot.val());
+		  	res.json(snapshot.val());
 		});
+	});
+
+	app.get('/api/youtube/:key', function(req, res) {
+		var tube = Youtube.getByKey(youtubes, req.params.key);
+		res.send(tube);
 	});
 
 	app.put('/api/youtube/:tube_id/:validated', function(req, res) {
@@ -36,7 +41,7 @@ module.exports = function(app, tubesRef) {
 		  	"validated": req.params.validated
 		});
 		tubesRef.once("value", function(snapshot) {
-		  res.json(snapshot.val());
+		  	res.json(snapshot.val());
 		});
 	});
 
@@ -55,11 +60,21 @@ module.exports = function(app, tubesRef) {
 	});
 
 	tubesRef.on("child_added", function(snapshot, prevChildKey) {
-		console.log("child_added youtube");
 	  	var tube = snapshot.val();
 	  	var youtube = new Youtube(snapshot.val(), snapshot.key);
+	  	console.log("created tube with key: " + youtube.key);
 	  	youtubes.push(youtube);
 	});
+
+	tubesRef.on("child_changed", function(snapshot) {
+	  	Youtube.update(youtubes,snapshot);
+	  	console.log("The updated youtube key is " + snapshot.key);
+	});
+
+	tubesRef.on("child_removed", function(snapshot) {
+	  console.log("The youtube with key '" + snapshot.key + "' has been deleted");
+	  Youtube.delete(youtubes, snapshot);
+	})
 
 	app.get('/api/poll/youtubes', function(req, res) {
 		res.send(youtubes);

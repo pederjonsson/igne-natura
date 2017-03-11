@@ -160,7 +160,7 @@
                 <div class="col-sm-8 col-sm-offset-2 text-center">
                     <h4>CREATE CLIP</h4>
 
-                    <select class="form-control" ng-change="updateCreateClipFormWithYoutubeData()" ng-model="tubeIdForCreatingClip">
+                    <select class="form-control" ng-change="updateCreateClipFormWithYoutubeData()" ng-model="tubeKeyForCreatingClip">
                         <option  ng-repeat="obj in youtubes | filter:{ value.validated: false }" ng-value="obj.key">{{obj.value.originalTitle}}</option>
                     </select>
 

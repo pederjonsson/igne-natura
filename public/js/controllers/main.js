@@ -10,7 +10,7 @@ angular.module('clipController', [])
             $scope.formDataForCreatingClip = {
                 tags: []
             };
-            $scope.tubeIdForCreatingClip = "";
+            $scope.tubeKeyForCreatingClip = "";
             $scope.formDataCreateTag = {};
             $scope.formDataCreateYoutube = {};
             $scope.formDataForCreatingClip.violence = false;
@@ -48,7 +48,7 @@ angular.module('clipController', [])
             if (!$.isEmptyObject($scope.formDataForCreatingClip)) {
                 Clips.create($scope.formDataForCreatingClip)
                     .success(function(data) {
-                        $scope.updateYoutube($scope.tubeIdForCreatingClip, true);
+                        $scope.updateYoutube($scope.tubeKeyForCreatingClip, true);
                         $scope.resetFormData();
                         $scope.clips = data;
                     });
@@ -158,10 +158,18 @@ angular.module('clipController', [])
         };
 
         $scope.updateCreateClipFormWithYoutubeData = function(){
-            var tubeObj = $scope.youtubes[$scope.tubeIdForCreatingClip];
+
+            Youtubes.getByKey($scope.tubeKeyForCreatingClip).success(function(tubeObj){
+                console.log("tubeobj received: ", tubeObj);
+                $scope.formDataForCreatingClip.youtubeId = tubeObj.value.youtubeId;
+                $scope.formDataForCreatingClip.originalTitle = tubeObj.value.originalTitle;
+                $scope.formDataForCreatingClip.time = tubeObj.value.time;
+            });
+
+           /* var tubeObj = $scope.youtubes[$scope.tubeKeyForCreatingClip];
             $scope.formDataForCreatingClip.youtubeId = tubeObj.youtubeId;
             $scope.formDataForCreatingClip.originalTitle = tubeObj.originalTitle;
-            $scope.formDataForCreatingClip.time = tubeObj.time;
+            $scope.formDataForCreatingClip.time = tubeObj.time;*/
         };
 
     });
